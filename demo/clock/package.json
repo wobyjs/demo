@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "clock",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --force --config vite.ts --mode dev",
+    "prod": "vite --force --config vite.ts"
+  },
+  "dependencies": {
+    "vite": "^2.9.15",
+    "voby": "workspace:^0.44.0"
+  }
+}
