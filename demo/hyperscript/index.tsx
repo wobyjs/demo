@@ -8,17 +8,17 @@ import type { JSX } from 'voby'
 
 const Counter = (): JSX.Element => {
 
-  const value = $(0)
+    const value = $(0)
 
-  const increment = () => value(prev => prev + 1)
-  const decrement = () => value(prev => prev - 1)
+    const increment = () => value(prev => prev + 1)
+    const decrement = () => value(prev => prev - 1)
 
-  return [
-    h('h1', null, 'Counter'),
-    h('p', null, value),
-    h('button', { onClick: increment }, '+'),
-    h('button', { onClick: decrement }, '-')
-  ]
+    return [
+        h('h1', null, 'Counter'),
+        h('p', null, value),
+        h('button', { onClick: increment }, '+'),
+        h('button', { onClick: decrement }, '-')
+    ]
 
 }
 

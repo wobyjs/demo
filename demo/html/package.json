@@ -3,11 +3,12 @@
   "name": "html",
   "type": "module",
   "scripts": {
-    "dev": "vite --force --config vite.ts --mode dev",
-    "prod": "vite --force --config vite.ts"
+    "dev": "vite --force --mode dev",
+    "prod": "vite --force",
+    "build": "vite build"
   },
   "dependencies": {
-    "vite": "^2.9.15",
+    "vite": "^4.1.1",
     "voby": "workspace:^0.44.0"
   }
 }

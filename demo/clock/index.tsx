@@ -1,6 +1,5 @@
 
 /* IMPORT */
-
 import { $, render, useAnimationLoop } from 'voby'
 import type { JSX, Observable } from 'voby'
 

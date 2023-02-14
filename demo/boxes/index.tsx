@@ -1,6 +1,5 @@
 
 /* IMPORT */
-
 import { BoxBufferGeometry } from 'three/src/geometries/BoxGeometry'
 import { DirectionalLight } from 'three/src/lights/DirectionalLight'
 import { Mesh } from 'three/src/objects/Mesh'

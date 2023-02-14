@@ -1,6 +1,5 @@
 
 /* IMPORT */
-
 import { $, render } from 'voby'
 import type { JSX } from 'voby'
 
