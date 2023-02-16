@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "vite": "^4.1.1",
-        "voby": "workspace:^0.44.0"
+        "voby": "workspace:*"
     }
 }
