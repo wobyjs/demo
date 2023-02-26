@@ -8,7 +8,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "vite": "^4.1.1",
+    "vite": "^4.1.4",
     "voby": "workspace:*"
   }
 }

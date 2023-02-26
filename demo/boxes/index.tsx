@@ -35,6 +35,7 @@ const useIdleInput = (callback: ((event: Event) => void)) => {
     pending = true
 
     setTimeout(() => {
+      console.log("useIdleInput timeout")
 
       pending = false
 
@@ -50,12 +51,11 @@ const useRotations = (count: Observable<number>): ObservableReadonly<Rotation[]>
 
   const getRandom = (): number => Math.random() * 360
   const getRotation = (): Rotation => $([getRandom(), getRandom(), getRandom()])
-  const rotations = useMemo(() => Array(count()).fill(0).map(getRotation))
+  const rotations = useMemo(() => Array(+count()).fill(0).map(getRotation))
 
   useAnimationLoop(() => {
 
     rotations().forEach(rotation => {
-
       const [x, y, z] = rotation()
 
       rotation([x + SPEED, y + SPEED, z + SPEED])
@@ -190,9 +190,7 @@ const App = (): JSX.Element => {
   const rotations = useRotations(count)
 
   const onInput = useIdleInput(event => {
-
     count(parseInt((event.target as any).value))
-
   })
 
   return (

@@ -1,6 +1,6 @@
 
 /* IMPORT */
-import { $, render } from 'voby'
+import { $, render, useEffect } from 'voby'
 import type { JSX } from 'voby'
 
 /* MAIN */
@@ -20,7 +20,6 @@ const Counter = (): JSX.Element => {
       <button onClick={decrement}>-</button>
     </>
   )
-
 }
 
 render(<Counter />, document.getElementById('app'))
