@@ -10,5 +10,6 @@
     "dependencies": {
         "vite": "^4.1.4",
         "voby": "workspace:*"
-    }
+    },
+    "version": "0.44.1"
 }
