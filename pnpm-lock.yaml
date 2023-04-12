@@ -33,9 +33,11 @@ importers:
 
   demo/counter:
     specifiers:
+      oby: workspace:../../../oby
       vite: ^4.1.4
       voby: workspace:../../../voby
     dependencies:
+      oby: link:../../../oby
       vite: 4.1.4
       voby: link:../../../voby
 

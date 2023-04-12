@@ -1,16 +1,17 @@
 
 /* IMPORT */
-import { $, render, useEffect } from 'voby'
+import { $, render } from 'voby'
 import type { JSX } from 'voby'
+import type { Observable } from 'oby'
 
 /* MAIN */
 
-const Counter = (): JSX.Element => {
+const Counter = ({ increment, decrement, value }: { increment: Observable<() => number>, decrement: Observable<() => number>, value: Observable<number> }): JSX.Element => {
 
-    const value = $(0)
+    // const value = $(0)
 
-    const increment = () => value(prev => prev + 1)
-    const decrement = () => value(prev => prev - 1)
+    // const increment = () => value(prev => prev + 1)
+    // const decrement = () => value(prev => prev - 1)
 
     return (
         <>
@@ -22,4 +23,12 @@ const Counter = (): JSX.Element => {
     )
 }
 
-render(<Counter />, document.getElementById('app'))
+const App = () => {
+    const value = $(0)
+
+    const increment = $(() => value(prev => prev + 1))
+    const decrement = $(() => value(prev => prev - 1))
+
+    return <Counter {...{ value, increment, decrement }} />
+}
+render(<App />, document.getElementById('app'))
