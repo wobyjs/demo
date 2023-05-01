@@ -8,102 +8,102 @@ importers:
   demo/benchmark:
     specifiers:
       vite: ^4.1.4
-      voby: workspace:../../../voby
+      voby: workspace:../../../woby
     dependencies:
       vite: 4.1.4
-      voby: link:../../../voby
+      voby: link:../../../woby
 
   demo/boxes:
     specifiers:
       three: 0.111.0
       vite: ^4.1.4
-      voby: workspace:../../../voby
+      voby: workspace:../../../woby
     dependencies:
       three: 0.111.0
       vite: 4.1.4
-      voby: link:../../../voby
+      voby: link:../../../woby
 
   demo/clock:
     specifiers:
       vite: ^4.1.4
-      voby: workspace:../../../voby
+      voby: workspace:../../../woby
     dependencies:
       vite: 4.1.4
-      voby: link:../../../voby
+      voby: link:../../../woby
 
   demo/counter:
     specifiers:
       oby: workspace:../../../oby
       vite: ^4.1.4
-      voby: workspace:../../../voby
+      voby: workspace:../../../woby
     dependencies:
       oby: link:../../../oby
       vite: 4.1.4
-      voby: link:../../../voby
+      voby: link:../../../woby
 
   demo/emoji_counter:
     specifiers:
       vite: ^4.1.4
-      voby: workspace:../../../voby
+      voby: workspace:../../../woby
     dependencies:
       vite: 4.1.4
-      voby: link:../../../voby
+      voby: link:../../../woby
 
   demo/html:
     specifiers:
       vite: ^4.1.4
-      voby: workspace:../../../voby
+      voby: workspace:../../../woby
     dependencies:
       vite: 4.1.4
-      voby: link:../../../voby
+      voby: link:../../../woby
 
   demo/hyperscript:
     specifiers:
       vite: ^4.1.4
-      voby: workspace:../../../voby
+      voby: workspace:../../../woby
     dependencies:
       vite: 4.1.4
-      voby: link:../../../voby
+      voby: link:../../../woby
 
   demo/playground:
     specifiers:
       vite: ^4.1.4
-      voby: workspace:../../../voby
+      voby: workspace:../../../woby
     dependencies:
       vite: 4.1.4
-      voby: link:../../../voby
+      voby: link:../../../woby
 
   demo/spiral:
     specifiers:
       vite: ^4.1.4
-      voby: workspace:../../../voby
+      voby: workspace:../../../woby
     dependencies:
       vite: 4.1.4
-      voby: link:../../../voby
+      voby: link:../../../woby
 
   demo/store_counter:
     specifiers:
       vite: ^4.1.4
-      voby: workspace:../../../voby
+      voby: workspace:../../../woby
     dependencies:
       vite: 4.1.4
-      voby: link:../../../voby
+      voby: link:../../../woby
 
   demo/triangle:
     specifiers:
       vite: ^4.1.4
-      voby: workspace:../../../voby
+      voby: workspace:../../../woby
     dependencies:
       vite: 4.1.4
-      voby: link:../../../voby
+      voby: link:../../../woby
 
   demo/uibench:
     specifiers:
       vite: ^4.1.4
-      voby: workspace:../../../voby
+      voby: workspace:../../../woby
     dependencies:
       vite: 4.1.4
-      voby: link:../../../voby
+      voby: link:../../../woby
 
 packages:
 

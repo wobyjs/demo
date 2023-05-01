@@ -9,7 +9,6 @@
         "disableSizeLimit": true,
         "esModuleInterop": false,
         "forceConsistentCasingInFileNames": true,
-        "importsNotUsedAsValues": "error",
         "inlineSourceMap": false,
         "inlineSources": false,
         // "isolatedModules": true,
@@ -31,7 +30,6 @@
         "noUnusedLocals": true,
         "noUnusedParameters": false,
         "outDir": "./dist/",
-        "preserveValueImports": true,
         "pretty": true,
         // "resolveJsonModule": true,
         "skipDefaultLibCheck": true,
@@ -68,7 +66,6 @@
             ],
         },
         "typeRoots": [
-            "../voby/src",
             "voby"
         ],
         "types": [
@@ -77,7 +74,7 @@
     },
     "references": [
         {
-            "path": "../voby"
+            "path": "../woby"
         }
     ],
     // "include": [

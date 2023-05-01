@@ -3,12 +3,12 @@
     "name": "clock",
     "type": "module",
     "scripts": {
-        "dev": "vite --force --mode dev",
+        "dev": "vite --force --mode dev --host",
         "prod": "vite --force",
         "build": "vite build"
     },
     "dependencies": {
         "vite": "^4.1.4",
-        "voby": "workspace:../../../voby"
+        "voby": "workspace:../../../woby"
     }
 }

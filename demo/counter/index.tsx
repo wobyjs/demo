@@ -1,12 +1,12 @@
 
 /* IMPORT */
 import { $, render } from 'voby'
-import type { JSX } from 'voby'
+// import type { JSX } from 'voby'
 import type { Observable } from 'oby'
 
 /* MAIN */
 
-const Counter = ({ increment, decrement, value }: { increment: Observable<() => number>, decrement: Observable<() => number>, value: Observable<number> }): JSX.Element => {
+const Counter = ({ increment, decrement, value }: { increment: Observable<() => number>, decrement: Observable<() => number>, value: Observable<number> }): Element => {
 
     // const value = $(0)
 
