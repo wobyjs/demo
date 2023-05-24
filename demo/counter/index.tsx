@@ -1,3 +1,4 @@
+/// <reference types="voby" />
 
 /* IMPORT */
 import { $, render } from 'voby'
