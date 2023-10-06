@@ -1,18 +1,16 @@
-/// <reference types="voby" />
-
 /* IMPORT */
-import { $, render } from 'voby'
-// import type { JSX } from 'voby'
-import type { Observable } from 'oby'
+import { $, render, Observable } from 'voby'
 
 /* MAIN */
 
-const Counter = ({ increment, decrement, value }: { increment: Observable<() => number>, decrement: Observable<() => number>, value: Observable<number> }): Element => {
+const Counter = ({ increment, decrement, value }: { increment: Observable<() => number>, decrement: Observable<() => number>, value: Observable<number> }): JSX.Element => {
 
     // const value = $(0)
 
     // const increment = () => value(prev => prev + 1)
     // const decrement = () => value(prev => prev - 1)
+
+    const v = $('abc')
 
     return (
         <>
@@ -27,8 +25,8 @@ const Counter = ({ increment, decrement, value }: { increment: Observable<() => 
 const App = () => {
     const value = $(0)
 
-    const increment = $(() => value(prev => prev + 1))
-    const decrement = $(() => value(prev => prev - 1))
+    const increment = () => value(prev => prev + 1)
+    const decrement = () => value(prev => prev - 1)
 
     return <Counter {...{ value, increment, decrement }} />
 }

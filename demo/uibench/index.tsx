@@ -1,8 +1,7 @@
 
 /* IMPORT */
 
-import { render, store, ForIndex, Switch, Ternary } from 'voby'
-import type { JSX } from 'voby'
+import { render, store, tick, For, Switch, Ternary } from 'voby'
 
 /* TYPES */
 
@@ -69,14 +68,14 @@ const Anim = ({ state }: { state: AnimState }): JSX.Element => {
 
     return (
         <div class="Anim">
-            <ForIndex values={state.items}>
+            <For values={state.items} unkeyed>
                 {item => {
                     const id = () => item().id
                     const borderRadius = () => item().time % 10
                     const background = () => `rgba(0,0,0,${0.5 + ((item().time % 10) / 10)})`
                     return <div class="AnimBox" data-id={id} style={{ borderRadius, background }} />
                 }}
-            </ForIndex>
+            </For>
         </div>
     )
 
@@ -85,14 +84,14 @@ const Anim = ({ state }: { state: AnimState }): JSX.Element => {
 const Table = ({ state }: { state: TableState }): JSX.Element => {
 
     const onClick = (event: MouseEvent): void => {
-        console.log('Clicked' + (event.target as any)?.textContent)
+        console.log('Clicked' + event.target?.textContent)
         event.stopPropagation()
     }
 
     return (
         <table class="Table">
             <tbody>
-                <ForIndex values={state.items}>
+                <For values={state.items} unkeyed>
                     {item => {
                         const id = () => item().id
                         const className = () => item().active ? 'TableRow active' : 'TableRow'
@@ -102,17 +101,17 @@ const Table = ({ state }: { state: TableState }): JSX.Element => {
                                 <td class="TableCell">
                                     {content}
                                 </td>
-                                <ForIndex values={() => item().props}>
+                                <For values={() => item().props} unkeyed>
                                     {text => (
                                         <td class="TableCell" onClick={onClick}>
                                             {text}
                                         </td>
                                     )}
-                                </ForIndex>
+                                </For>
                             </tr>
                         )
                     }}
-                </ForIndex>
+                </For>
             </tbody>
         </table>
     )
@@ -123,14 +122,14 @@ const TreeNode = ({ item }: { item: () => TreeItem }): JSX.Element => {
 
     return (
         <ul class="TreeNode">
-            <ForIndex values={() => item().children}>
+            <For values={() => item().children} unkeyed>
                 {item => (
                     <Ternary when={() => item().container}>
                         <TreeNode item={item} />
                         <TreeLeaf item={item} />
                     </Ternary>
                 )}
-            </ForIndex>
+            </For>
         </ul>
     )
 
@@ -190,7 +189,7 @@ const Results = ({ results }: { results: Results }): JSX.Element => {
 
 }
 
-/* INIT */
+/* RENDER */
 
 render(<App state={state} />, document.body)
 
@@ -209,8 +208,14 @@ const normalize = value => ({ // Removing major custom classes, which won't be r
     }
 })
 
-const onUpdate = stateNext => store.reconcile(state, normalize(stateNext))
-const onFinish = results => render(<Results results={results} />, document.body)
+const onUpdate = stateNext => {
+    store.reconcile(state, normalize(stateNext))
+    tick()
+}
+
+const onFinish = results => {
+    render(<Results results={results} />, document.body)
+}
 
 globalThis.uibench.init('Voby', '*')
 globalThis.uibench.run(onUpdate, onFinish)
