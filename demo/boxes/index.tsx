@@ -8,8 +8,8 @@ import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera'
 import { Scene } from 'three/src/scenes/Scene'
 import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer'
 
-import { $, render, useAnimationLoop, useEffect, useMemo } from 'voby'
-import type { JSX, Observable, ObservableReadonly, } from 'voby'
+import { $, render, useAnimationLoop, useEffect, useMemo } from 'woby'
+import type { JSX, Observable, ObservableReadonly, } from 'woby'
 
 /* TYPES */
 

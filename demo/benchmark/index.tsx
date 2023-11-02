@@ -1,9 +1,9 @@
 
 /* IMPORT */
 
-import { createElement, Fragment } from 'voby'
-import { $, render, resolve, template, useRoot, useSelector, For } from 'voby'
-import type { FunctionMaybe, Observable, ObservableMaybe, JSX } from 'voby'
+import { createElement, Fragment } from 'woby'
+import { $, render, resolve, template, useRoot, useSelector, For } from 'woby'
+import type { FunctionMaybe, Observable, ObservableMaybe, JSX } from 'woby'
 
 /* TYPES */
 

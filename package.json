@@ -1,6 +1,6 @@
 {
-    "name": "voby-demo",
-    "repository": "github:fabiospampinato/voby",
+    "name": "woby-demo",
+    "repository": "github:fabiospampinato/woby",
     "description": "A high-performance framework with fine-grained observable-based reactivity for building rich applications.",
     "version": "0.44.2",
     "type": "module",

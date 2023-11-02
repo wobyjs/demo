@@ -1,7 +1,7 @@
 
 /* IMPORT */
 
-import { render, store, tick, For, Switch, Ternary } from 'voby'
+import { render, store, tick, For, Switch, Ternary } from 'woby'
 
 /* TYPES */
 

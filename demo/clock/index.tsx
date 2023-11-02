@@ -1,7 +1,7 @@
 
 /* IMPORT */
-import { $, render, useAnimationLoop } from 'voby'
-import type { JSX, Observable } from 'voby'
+import { $, render, useAnimationLoop } from 'woby'
+import type { JSX, Observable } from 'woby'
 
 /* HELPERS */
 

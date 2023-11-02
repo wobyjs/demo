@@ -1,8 +1,8 @@
 
 /* IMPORT */
 
-import type { JSX, Observable, ObservableReadonly } from 'voby'
-import { $, render, untrack, For, If, useAnimationLoop, useMemo } from 'voby'
+import type { JSX, Observable, ObservableReadonly } from 'woby'
+import { $, render, untrack, For, If, useAnimationLoop, useMemo } from 'woby'
 
 /* HELPERS */
 

@@ -1,8 +1,8 @@
 
 /* IMPORT */
 
-import { render, store } from 'voby'
-import type { JSX } from 'voby'
+import { render, store } from 'woby'
+import type { JSX } from 'woby'
 /* MAIN */
 
 const Counter = (): JSX.Element => {

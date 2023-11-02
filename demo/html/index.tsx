@@ -1,8 +1,8 @@
 
 /* IMPORT */
 
-import { $, html, render } from 'voby'
-import type { JSX } from 'voby'
+import { $, html, render } from 'woby'
+import type { JSX } from 'woby'
 
 /* MAIN */
 

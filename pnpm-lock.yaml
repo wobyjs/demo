@@ -17,7 +17,7 @@ importers:
       vite:
         specifier: ^4.4.11
         version: 4.4.11
-      voby:
+      woby:
         specifier: workspace:../../../woby
         version: link:../../../woby
 
@@ -29,7 +29,7 @@ importers:
       vite:
         specifier: ^4.4.11
         version: 4.4.11
-      voby:
+      woby:
         specifier: workspace:../../../woby
         version: link:../../../woby
 
@@ -38,7 +38,7 @@ importers:
       vite:
         specifier: ^4.4.11
         version: 4.4.11
-      voby:
+      woby:
         specifier: workspace:../../../woby
         version: link:../../../woby
 
@@ -47,7 +47,7 @@ importers:
       vite:
         specifier: ^4.4.11
         version: 4.4.11
-      voby:
+      woby:
         specifier: workspace:../../../woby
         version: link:../../../woby
 
@@ -56,7 +56,7 @@ importers:
       vite:
         specifier: ^4.4.11
         version: 4.4.11
-      voby:
+      woby:
         specifier: workspace:../../../woby
         version: link:../../../woby
 
@@ -65,7 +65,7 @@ importers:
       vite:
         specifier: ^4.4.11
         version: 4.4.11
-      voby:
+      woby:
         specifier: workspace:../../../woby
         version: link:../../../woby
 
@@ -74,7 +74,7 @@ importers:
       vite:
         specifier: ^4.4.11
         version: 4.4.11
-      voby:
+      woby:
         specifier: workspace:../../../woby
         version: link:../../../woby
 
@@ -83,7 +83,7 @@ importers:
       vite:
         specifier: ^4.4.11
         version: 4.4.11
-      voby:
+      woby:
         specifier: workspace:../../../woby
         version: link:../../../woby
 
@@ -92,7 +92,7 @@ importers:
       vite:
         specifier: ^4.4.11
         version: 4.4.11
-      voby:
+      woby:
         specifier: workspace:../../../woby
         version: link:../../../woby
 
@@ -101,7 +101,7 @@ importers:
       vite:
         specifier: ^4.4.11
         version: 4.4.11
-      voby:
+      woby:
         specifier: workspace:../../../woby
         version: link:../../../woby
 
@@ -110,7 +110,7 @@ importers:
       vite:
         specifier: ^4.4.11
         version: 4.4.11
-      voby:
+      woby:
         specifier: workspace:../../../woby
         version: link:../../../woby
 
@@ -119,7 +119,7 @@ importers:
       vite:
         specifier: ^4.4.11
         version: 4.4.11
-      voby:
+      woby:
         specifier: workspace:../../../woby
         version: link:../../../woby
 

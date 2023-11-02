@@ -1,8 +1,8 @@
 
 /* IMPORT */
 
-import { $, render } from 'voby'
-import type { JSX, Observable } from 'voby'
+import { $, render } from 'woby'
+import type { JSX, Observable } from 'woby'
 
 /* HELPERS */
 

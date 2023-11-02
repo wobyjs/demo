@@ -9,6 +9,6 @@
     },
     "dependencies": {
         "vite": "^4.4.11",
-        "voby": "workspace:../../../woby"
+        "woby": "workspace:../../../woby"
     }
 }

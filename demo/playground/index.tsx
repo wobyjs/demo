@@ -1,12 +1,12 @@
 
 /* IMPORT */
 
-import * as Voby from 'voby'
-import type { JSX, Observable } from 'voby'
-import { Dynamic, ErrorBoundary, For, If, Portal, Suspense, Switch, Ternary } from 'voby'
-import { useContext, useEffect, useInterval, useMemo, usePromise, useResource, useTimeout } from 'voby'
-import { $, batch, createContext, createDirective, html, lazy, render, renderToString, store, template } from 'voby'
-import type { Child } from 'voby/jsx-runtime'
+import * as Voby from 'woby'
+import type { JSX, Observable } from 'woby'
+import { Dynamic, ErrorBoundary, For, If, Portal, Suspense, Switch, Ternary } from 'woby'
+import { useContext, useEffect, useInterval, useMemo, usePromise, useResource, useTimeout } from 'woby'
+import { $, batch, createContext, createDirective, html, lazy, render, renderToString, store, template } from 'woby'
+import type { Child } from 'woby/jsx-runtime'
 
 globalThis.Voby = Voby
 

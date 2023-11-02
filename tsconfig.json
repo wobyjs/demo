@@ -13,7 +13,7 @@
         "inlineSources": false,
         // "isolatedModules": true,
         "jsx": "react-jsx",
-        "jsxImportSource": "voby",
+        "jsxImportSource": "woby",
         "lib": [
             "dom",
             "esnext"
@@ -48,34 +48,34 @@
         "composite": true,
         // "paths": {
         //     // "*": [
-        //     //   "../voby/src"
+        //     //   "../woby/src"
         //     // ],
-        //     // "voby": [
-        //     //   "../voby/src"
+        //     // "woby": [
+        //     //   "../woby/src"
         //     // ],
         //     // "voby/*": [
-        //     //   "../voby/src/*"
+        //     //   "../woby/src/*"
         //     // ],
-        //     "voby/jsx-runtime": [
-        //         "../voby/dist/jsx"
+        //     "woby/jsx-runtime": [
+        //         "../woby/dist/jsx"
         //     ],
-        //     "voby/jsx-runtime/*": [
-        //         "../voby/dist/jsx/*"
+        //     "woby/jsx-runtime/*": [
+        //         "../woby/dist/jsx/*"
         //     ],
         // },
         "typeRoots": [
-            "voby"
+            "woby"
         ],
         "types": [
             "jsx"
         ]
     },
-    "references": [
-        {
-            "path": "../woby"
-        }
-    ],
+    // "references": [
+    //     {
+    //         "path": "../woby"
+    //     }
+    // ],
     // "include": [
-    //   "../voby/src/jsx"
+    //   "../woby/src/jsx"
     // ]
 }

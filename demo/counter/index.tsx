@@ -1,5 +1,5 @@
 /* IMPORT */
-import { $, render, Observable } from 'voby'
+import { $, $$, useMemo, render, Observable } from 'woby'
 
 /* MAIN */
 
@@ -11,11 +11,15 @@ const Counter = ({ increment, decrement, value }: { increment: Observable<() => 
     // const decrement = () => value(prev => prev - 1)
 
     const v = $('abc')
-
+    const m = useMemo(() => {
+        console.log($$(value) + $$(v))
+        return $$(value) + $$(v)
+    })
     return (
         <>
             <h1>Counter</h1>
             <p>{value}</p>
+            <p>{m}</p>
             <button onClick={increment}>+</button>
             <button onClick={decrement}>-</button>
         </>
