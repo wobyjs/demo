@@ -8,14 +8,11 @@ import { defineConfig } from 'vite'
 /* MAIN */
 
 const config = defineConfig({
-    esbuild: {
-        jsx: 'automatic',
-    },
     resolve: {
         alias: {
             '~': path.resolve('../../src'),
-            'woby/jsx-dev-runtime': process.argv.includes('dev') ? path.resolve('../../../woby/src/jsx/runtime') : 'woby/jsx-dev-runtime',
-            'woby/jsx-runtime': process.argv.includes('dev') ? path.resolve('../../../woby/src/jsx/runtime') : 'woby/jsx-runtime',
+            'woby/jsx-dev-runtime': process.argv.includes('dev') ? path.resolve('../../../woby/src/jsx/runtime') : 'woby',
+            'woby/jsx-runtime': process.argv.includes('dev') ? path.resolve('../../../woby/src/jsx/runtime') : 'woby',
             'woby': process.argv.includes('dev') ? path.resolve('../../../woby/src') : 'woby'
         }
     }

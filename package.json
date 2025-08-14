@@ -56,6 +56,5 @@
         "demo/*"
     ],
     "dependencies": {
-        "pnpm": "^8.8.0"
     }
 }

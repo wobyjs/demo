@@ -55,8 +55,8 @@ const Dot = ({ x, y, s, text }: { x: number, y: number, s: number, text: Observa
 
   const hovering = $(false)
 
-  const onMouseEnter = () => hovering(true)
-  const onMouseLeave = () => hovering(false)
+  const onPointerEnter = () => hovering(true)
+  const onPointerLeave = () => hovering(false)
 
   s = s * 1.3
 
@@ -70,7 +70,7 @@ const Dot = ({ x, y, s, text }: { x: number, y: number, s: number, text: Observa
   const style = { width, height, left, top, borderRadius, lineHeight, background }
 
   return (
-    <div class="dot" style={style} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <div class="dot" style={style} onPointerEnter={onPointerEnter} onPointerLeave={onPointerLeave}>
       {() => hovering() ? `**${text()}**` : text()}
     </div>
   )

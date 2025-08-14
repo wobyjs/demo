@@ -1,9 +1,10 @@
 /* IMPORT */
-import { $, $$, useMemo, render, Observable } from 'woby'
+import { $, $$, useMemo, render, Observable, customElement } from 'woby'
 
 /* MAIN */
 
-const Counter = ({ increment, decrement, value }: { increment: Observable<() => number>, decrement: Observable<() => number>, value: Observable<number> }): JSX.Element => {
+
+const Counter = ({ increment, decrement, value, ...props }: { increment: () => number, decrement: () => number, value: Observable<number> }): JSX.Element => {
 
     // const value = $(0)
 
@@ -15,16 +16,36 @@ const Counter = ({ increment, decrement, value }: { increment: Observable<() => 
         console.log($$(value) + $$(v))
         return $$(value) + $$(v)
     })
-    return (
-        <>
-            <h1>Counter</h1>
-            <p>{value}</p>
-            <p>{m}</p>
-            <button onClick={increment}>+</button>
-            <button onClick={decrement}>-</button>
-        </>
-    )
+    return <div {...props}>
+        <h1>Counter</h1>
+        <p>{value}</p>
+        <p>{m}</p>
+        <button onClick={increment}>+</button>
+        <button onClick={decrement}>-</button>
+    </div>
 }
+
+
+type CounterParamType = Parameters<typeof Counter>[0]
+// const a: CounterParamType
+
+
+customElement('counter-element', ['value', 'class'], Counter)
+
+declare global {
+    interface HTMLElementTagNameMap {
+        'counter-element': JSX.HTMLAttributes<HTMLElement> & CounterParamType
+    }
+}
+
+declare module 'woby' {
+    namespace JSX {
+        interface IntrinsicElements {
+            'counter-element': JSX.HTMLAttributes<HTMLElement> & CounterParamType
+        }
+    }
+}
+
 
 const App = () => {
     const value = $(0)
@@ -32,6 +53,7 @@ const App = () => {
     const increment = () => value(prev => prev + 1)
     const decrement = () => value(prev => prev - 1)
 
-    return <Counter {...{ value, increment, decrement }} />
+    return [<counter-element {...{ value, increment, decrement }} class={$('border-2 border-black border-solid bg-amber-400')}></counter-element>,
+    <Counter {...{ value, increment, decrement }} />]
 }
 render(<App />, document.getElementById('app'))

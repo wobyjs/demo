@@ -1176,7 +1176,7 @@ const TestClassNameStatic = (): JSX.Element => {
     return (
         <>
             <h3>ClassName - Static</h3>
-            <p className="red">content</p>
+            <p class="red">content</p>
         </>
     )
 }
@@ -1195,7 +1195,7 @@ const TestClassNameObservable = (): JSX.Element => {
     return (
         <>
             <h3>ClassName - Observable</h3>
-            <p className={o}>content</p>
+            <p class={o}>content</p>
         </>
     )
 }
@@ -1214,7 +1214,7 @@ const TestClassNameFunction = (): JSX.Element => {
     return (
         <>
             <h3>ClassName - Function</h3>
-            <p className={() => o()}>content</p>
+            <p class={() => o()}>content</p>
         </>
     )
 }
@@ -2590,7 +2590,7 @@ const TestDirective = (): JSX.Element => {
         <>
             <h3>Directive</h3>
             <Model.Provider>
-                <input value="foo" use: model={['bar', 'baz']} />
+                <input value="foo" use:model={['bar', 'baz']} />
             </Model.Provider>
         </>
     )
@@ -2616,7 +2616,7 @@ const TestDirectiveRegisterLocal = (): JSX.Element => {
     return (
         <>
             <h3>Directive</h3>
-            <input value="foo" use: modelLocal={['bar', 'baz']} />
+            <input value="foo" use:modelLocal={['bar', 'baz']} />
         </>
     )
 }
@@ -2641,7 +2641,7 @@ const TestDirectiveSingleArgument = (): JSX.Element => {
         <>
             <h3>Directive - Single Argument</h3>
             <Model.Provider>
-                <input value="foo" use: model="bar" />
+                <input value="foo" use:model="bar" />
             </Model.Provider>
         </>
     )
@@ -2826,7 +2826,7 @@ const TestEventEnterStopPropagation = (): JSX.Element => {
     return (
         <>
             <h3>Event - Enter - Stop Propagation</h3>
-            <p><button onMouseEnter={incrementOuter}>{outer}<button onMouseEnter={incrementInner}>{inner}</button></button></p>
+            <p><button onPointerEnter={incrementOuter}>{outer}<button onPointerEnter={incrementInner}>{inner}</button></button></p>
         </>
     )
 }
@@ -2842,7 +2842,7 @@ const TestEventEnterStopImmediatePropagation = (): JSX.Element => {
     return (
         <>
             <h3>Event - Enter - Stop Immediate Propagation</h3>
-            <p><button onMouseEnter={incrementOuter}>{outer}<button onMouseEnter={incrementInner}>{inner}</button></button></p>
+            <p><button onPointerEnter={incrementOuter}>{outer}<button onPointerEnter={incrementInner}>{inner}</button></button></p>
         </>
     )
 }
@@ -2853,7 +2853,7 @@ const TestEventEnterAndEnterCaptureStatic = (): JSX.Element => {
     return (
         <>
             <h3>Event - Enter & Enter Capture Static</h3>
-            <p><button onMouseEnter={increment} onMouseEnterCapture={increment}>{o}</button></p>
+            <p><button onPointerEnter={increment} onPointerEnterCapture={increment}>{o}</button></p>
         </>
     )
 }
@@ -5491,7 +5491,7 @@ const TestSVGStaticComplex = (): JSX.Element => {
     return (
         <>
             <h3>SVG - Static Complex</h3>
-            <svg xmlns="http://www.w3.org/2000/svg" width="8.838ex" height="2.398ex" role="img" focusable="false" viewBox="0 -966.5 3906.6 1060" xmlns: xlink="http://www.w3.org/1999/xlink" style="vertical-align: -0.212ex;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="8.838ex" height="2.398ex" role="img" focusable="false" viewBox="0 -966.5 3906.6 1060" xmlns:xlink="http://www.w3.org/1999/xlink" style="vertical-align: -0.212ex;">
                 <defs>
                     <path id="MJX-1-TEX-N-221A" d="M95 178Q89 178 81 186T72 200T103 230T169 280T207 309Q209 311 212 311H213Q219 311 227 294T281 177Q300 134 312 108L397 -77Q398 -77 501 136T707 565T814 786Q820 800 834 800Q841 800 846 794T853 782V776L620 293L385 -193Q381 -200 366 -200Q357 -200 354 -197Q352 -195 256 15L160 225L144 214Q129 202 113 190T95 178Z"></path>
                     <path id="MJX-1-TEX-I-1D44E" d="M33 157Q33 258 109 349T280 441Q331 441 370 392Q386 422 416 422Q429 422 439 414T449 394Q449 381 412 234T374 68Q374 43 381 35T402 26Q411 27 422 35Q443 55 463 131Q469 151 473 152Q475 153 483 153H487Q506 153 506 144Q506 138 501 117T481 63T449 13Q436 0 417 -8Q409 -10 393 -10Q359 -10 336 5T306 36L300 51Q299 52 296 50Q294 48 292 46Q233 -10 172 -10Q117 -10 75 30T33 157ZM351 328Q351 334 346 350T323 385T277 405Q242 405 210 374T160 293Q131 214 119 129Q119 126 119 118T118 106Q118 61 136 44T179 26Q217 26 254 59T298 110Q300 114 325 217T351 328Z"></path>
@@ -5508,23 +5508,23 @@ const TestSVGStaticComplex = (): JSX.Element => {
                                         <use data-c="1D44E" xlinkHref="#MJX-1-TEX-I-1D44E"></use>
                                     </g>
                                     <g data-mml-node="mn" transform="translate(562,289) scale(0.707)">
-                                        <use data-c="32" xlink: href="#MJX-1-TEX-N-32"></use>
+                                        <use data-c="32" xlink:href="#MJX-1-TEX-N-32"></use>
                                     </g>
                                 </g>
                                 <g data-mml-node="mo" transform="translate(1187.8,0)">
-                                    <use data-c="2B" xlink: href="#MJX-1-TEX-N-2B"></use>
+                                    <use data-c="2B" xlink:href="#MJX-1-TEX-N-2B"></use>
                                 </g>
                                 <g data-mml-node="msup" transform="translate(2188,0)">
                                     <g data-mml-node="mi">
-                                        <use data-c="1D44F" xlink: href="#MJX-1-TEX-I-1D44F"></use>
+                                        <use data-c="1D44F" xlink:href="#MJX-1-TEX-I-1D44F"></use>
                                     </g>
                                     <g data-mml-node="mn" transform="translate(462,289) scale(0.707)">
-                                        <use data-c="32" xlink: href="#MJX-1-TEX-N-32"></use>
+                                        <use data-c="32" xlink:href="#MJX-1-TEX-N-32"></use>
                                     </g>
                                 </g>
                             </g>
                             <g data-mml-node="mo" transform="translate(0,106.5)">
-                                <use data-c="221A" xlink: href="#MJX-1-TEX-N-221A"></use>
+                                <use data-c="221A" xlink:href="#MJX-1-TEX-N-221A"></use>
                             </g>
                             <rect width="3053.6" height="60" x="853" y="846.5"></rect>
                         </g>
