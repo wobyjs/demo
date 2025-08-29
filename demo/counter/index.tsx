@@ -1,5 +1,5 @@
 /* IMPORT */
-import { $, $$, useMemo, render, Observable, customElement } from 'woby'
+import { $, $$, useMemo, render, Observable, customElement, ElementAttributes } from 'woby'
 
 /* MAIN */
 
@@ -25,23 +25,12 @@ const Counter = ({ increment, decrement, value, ...props }: { increment: () => n
     </div>
 }
 
-
-type CounterParamType = Parameters<typeof Counter>[0]
-// const a: CounterParamType
-
-
 customElement('counter-element', ['value', 'class'], Counter)
-
-declare global {
-    interface HTMLElementTagNameMap {
-        'counter-element': JSX.HTMLAttributes<HTMLElement> & CounterParamType
-    }
-}
 
 declare module 'woby' {
     namespace JSX {
         interface IntrinsicElements {
-            'counter-element': JSX.HTMLAttributes<HTMLElement> & CounterParamType
+            'counter-element': ElementAttributes<typeof Counter>
         }
     }
 }
