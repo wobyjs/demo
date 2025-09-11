@@ -13,7 +13,7 @@ This guide will help you set up the Woby Demo repository and run the demo applic
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/wongchichong/woby-demo.git
+git clone https://github.com/wongchichong/demo.git
 cd woby-demo
 ```
 

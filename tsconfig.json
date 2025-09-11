@@ -19,7 +19,7 @@
             "esnext"
         ],
         "module": "es2020",
-        "moduleResolution": "node",
+        "moduleResolution": "node16",
         "newLine": "lf",
         "noEmitOnError": false,
         "noFallthroughCasesInSwitch": true,
@@ -64,10 +64,11 @@
         //     ],
         // },
         "typeRoots": [
-            "woby"
+            "node_modules/@types",
+            "node_modules"
         ],
         "types": [
-            "jsx"
+            "node"
         ]
     },
     // "references": [

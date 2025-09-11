@@ -41,7 +41,7 @@ Thank you for your interest in contributing to the Woby Demo repository! This gu
 ### Initial Setup
 ```bash
 # Clone the repository
-git clone https://github.com/wongchichong/woby-demo.git
+git clone https://github.com/wongchichong/demo.git
 cd woby-demo
 
 # Install dependencies

@@ -1,7 +1,7 @@
 
 /* IMPORT */
 
-import { $, h, render } from 'woby'
+import { $, h, render } from 'woby' //h syntax only but link to woby not woby/ssr
 import type { JSX } from 'woby'
 
 /* MAIN */
@@ -16,8 +16,8 @@ const Counter = (): JSX.Element => {
     return [
         h('h1', null, 'Counter'),
         h('p', null, value),
-        h('button', { onClick: increment }, '+'),
-        h('button', { onClick: decrement }, '-')
+        h('button', { onClick: increment } as any, '+'),
+        h('button', { onClick: decrement } as any, '-')
     ]
 
 }

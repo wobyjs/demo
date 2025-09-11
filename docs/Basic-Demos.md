@@ -13,7 +13,7 @@ This section covers the fundamental demo applications that showcase core Woby co
 
 **Location**: `demo/counter/`  
 **Run**: `pnpm dev:counter`  
-**Live Demo**: [CodeSandbox](https://codesandbox.io/s/woby-demo-counter-23fv5)
+**Live Demo**: [CodeSandbox](https://codesandbox.io/s/demo-counter-23fv5)
 
 ### Overview
 
@@ -93,7 +93,7 @@ render(<App />, document.getElementById('app'))
 
 **Location**: `demo/clock/`  
 **Run**: `pnpm dev:clock`  
-**Live Demo**: [CodeSandbox](https://codesandbox.io/s/woby-demo-clock-w1e7yb)
+**Live Demo**: [CodeSandbox](https://codesandbox.io/s/demo-clock-w1e7yb)
 
 ### Overview
 
@@ -167,7 +167,7 @@ const ClockFace = ({ time }: { time: Observable<number> }): JSX.Element => {
 
 **Location**: `demo/store_counter/`  
 **Run**: `pnpm dev:store_counter`  
-**Live Demo**: [CodeSandbox](https://codesandbox.io/s/woby-demo-store-counter-kvoqrw)
+**Live Demo**: [CodeSandbox](https://codesandbox.io/s/demo-store-counter-kvoqrw)
 
 ### Overview
 
@@ -267,7 +267,7 @@ const Counter = () => {
 
 **Location**: `demo/emoji_counter/`  
 **Run**: `pnpm dev:emoji_counter`  
-**Live Demo**: [CodeSandbox](https://codesandbox.io/s/woby-demo-emoji-counter-j91iz2)
+**Live Demo**: [CodeSandbox](https://codesandbox.io/s/demo-emoji-counter-j91iz2)
 
 ### Overview
 
