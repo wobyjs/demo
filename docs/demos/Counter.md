@@ -46,7 +46,7 @@ const Counter = ({ increment, decrement, value, ...props }: {
 }
 
 // Register as custom element
-customElement('counter-element', ['value', 'class'], Counter)
+customElement('counter-element', Counter, 'value', 'class')
 
 // TypeScript declaration for custom element
 declare module 'woby' {
@@ -124,7 +124,7 @@ const Counter = ({ increment, decrement, value, ...props }) => {
 ### 3. Custom Element Registration
 
 ```typescript
-customElement('counter-element', ['value', 'class'], Counter)
+customElement('counter-element', Counter, 'value', 'class')
 ```
 
 This registers the `Counter` component as a custom web element:
@@ -226,8 +226,8 @@ Components work naturally with observables:
 
 ### 4. Custom Elements
 
-```typescript
-customElement('my-counter', ['value'], Counter)
+```
+customElement('my-counter', Counter, 'value')
 
 // Use as web component
 <my-counter value={count} onIncrement={handleIncrement} />
@@ -244,7 +244,7 @@ Turn any component into a web component:
 
 The counter demo showcases Woby's fine-grained reactivity:
 
-```typescript
+```
 // When count changes from 5 to 6:
 // ❌ React: Entire component re-renders
 // ✅ Woby: Only the <p>{value}</p> text node updates
@@ -252,14 +252,14 @@ The counter demo showcases Woby's fine-grained reactivity:
 
 ### No Virtual DOM Overhead
 
-```typescript
+```
 // Direct DOM manipulation
 value(6)  // Immediately updates DOM text node
 ```
 
 ### Automatic Optimization
 
-```typescript
+```
 // Multiple updates in same frame are batched
 increment()
 increment()
@@ -271,7 +271,7 @@ increment()
 
 ### State Update Patterns
 
-```typescript
+```
 // Increment
 const increment = () => count(prev => prev + 1)
 
@@ -290,7 +290,7 @@ const doubleIncrement = () => batch(() => {
 
 ### Component Communication
 
-```typescript
+```
 // Parent component manages state
 const Parent = () => {
   const value = $(0)
@@ -307,7 +307,7 @@ const Counter = ({ value, onIncrement }) => (
 
 ### Add Reset Functionality
 
-```typescript
+```
 const App = () => {
   const value = $(0)
   const increment = () => value(prev => prev + 1)
@@ -325,7 +325,7 @@ const App = () => {
 
 ### Add Step Size
 
-```typescript
+```
 const Counter = () => {
   const count = $(0)
   const step = $(1)
@@ -346,7 +346,7 @@ const Counter = () => {
 
 ### Add Persistence
 
-```typescript
+```
 const Counter = () => {
   const count = $(parseInt(localStorage.getItem('count') || '0'))
   

@@ -85,7 +85,7 @@ Demos show various component patterns:
 import { customElement } from 'woby'
 
 // Custom elements
-customElement('my-counter', ['value'], Counter)
+customElement('my-counter', Counter, 'value')
 
 // Higher-order components
 const withLogging = (Component) => (props) => {

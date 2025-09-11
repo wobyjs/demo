@@ -11,6 +11,7 @@ The Counter component is a simple counter that displays a value and provides but
 3. Support for nested properties
 4. Style attribute processing
 5. Integration with Woby's reactive system
+6. Direct HTML embedding capability
 
 ## Component Structure
 
@@ -19,10 +20,10 @@ The Counter component is a simple counter that displays a value and provides but
 A simple counter component that displays a value and provides buttons to increment and decrement the value.
 
 **Props:**
-- `increment`: Function to increment the counter
-- `decrement`: Function to decrement the counter
-- `value`: Observable containing the counter value
-- `nested`: Optional nested properties
+- `increment`: Function to increment the counter (optional, defaults to incrementing the value)
+- `decrement`: Function to decrement the counter (optional, defaults to decrementing the value)
+- `value`: Observable containing the counter value (optional, defaults to `$(0)`)
+- `nested`: Optional nested properties (optional, defaults to `{ nested: { text: $('abc') } }`)
 
 ### Custom Element Registration
 
@@ -36,10 +37,30 @@ The Counter component is registered as a custom element with the tag name `count
 
 ## Usage Examples
 
-### As a Custom Element
+### As a Custom Element in HTML
+
+The counter element can be embedded directly in HTML files without any JavaScript:
 
 ```html
 <counter-element 
+  style-color="red" 
+  style-font-size="2em" 
+  nested-nested-text="xyz" 
+  class="border-2 border-black border-solid bg-amber-400">
+</counter-element>
+```
+
+### As a Custom Element in JSX
+
+```tsx
+const value = $(0)
+const increment = () => value(prev => prev + 1)
+const decrement = () => value(prev => prev - 1)
+
+<counter-element 
+  value={value} 
+  increment={increment} 
+  decrement={decrement}
   style-color="red" 
   style-font-size="2em" 
   nested-nested-text="xyz" 
@@ -77,6 +98,10 @@ Style attributes are automatically converted from kebab-case to camelCase and ap
 
 The demo shows how to create memoized computed values that automatically update when their dependencies change.
 
+### Direct HTML Embedding
+
+The component can be used directly in HTML files without any JavaScript initialization, making it ideal for progressive enhancement and server-side rendering scenarios.
+
 ## Running the Demo
 
 To run this demo:
@@ -86,6 +111,7 @@ To run this demo:
 3. Serve the demo directory
 4. Open in a web browser
 
-The demo will show two counters:
-1. One implemented as a custom element with various attributes
-2. One implemented as a standard component
+The demo will show:
+1. A counter implemented as a custom element embedded directly in HTML
+2. Two counters implemented as custom elements with various attributes
+3. One counter implemented as a standard component

@@ -18,13 +18,13 @@ import type { Observable, ElementAttributes, ObservableMaybe } from 'woby'
  */
 interface CounterProps {
     /** Function to increment the counter value */
-    increment: () => number
+    increment?: () => number
 
     /** Function to decrement the counter value */
-    decrement: () => number
+    decrement?: () => number
 
     /** Observable containing the current counter value */
-    value: Observable<number>
+    value?: Observable<number>
 
     /** Optional nested property structure */
     nested?: {
@@ -33,6 +33,9 @@ interface CounterProps {
             text: ObservableMaybe<string>
         }
     }
+    
+    /** Nested properties */
+    'nested-nested-text'?: string
 }
 
 /**
@@ -57,7 +60,17 @@ interface CounterProps {
  * <Counter value={value} increment={increment} decrement={decrement} />
  * ```
  */
-const Counter = ({ increment, decrement, value, nested = { nested: { text: $('abc') } }, ...props }: CounterProps): JSX.Element => {
+const Counter = ({ 
+    increment, 
+    decrement, 
+    value = $(0), 
+    nested = { nested: { text: $('abc') } }, 
+    ...props 
+}: CounterProps): JSX.Element => {
+
+    // Provide default increment/decrement functions if not provided
+    const handleIncrement = increment || (() => { value($$(value) + 1); return $$(value) + 1; });
+    const handleDecrement = decrement || (() => { value($$(value) - 1); return $$(value) - 1; });
 
     // const value = $(0)
 
@@ -84,8 +97,8 @@ const Counter = ({ increment, decrement, value, nested = { nested: { text: $('ab
         <h1>Counter</h1>
         <p>{value}</p>
         <p>{m}</p>
-        <button onClick={increment}>+</button>
-        <button onClick={decrement}>-</button>
+        <button onClick={handleIncrement}>+</button>
+        <button onClick={handleDecrement}>-</button>
     </div>
 }
 
@@ -101,7 +114,7 @@ const Counter = ({ increment, decrement, value, nested = { nested: { text: $('ab
  * - 'style-*': Style properties (e.g., style-color, style-font-size)
  * - 'nested-*': Nested properties (e.g., nested-nested-text)
  */
-customElement('counter-element', Counter, 'value', 'class', 'style-*', 'nested-*')
+customElement('counter-element', Counter, 'value', 'class', 'style-*', 'nested-nested-text')
 
 /**
  * Extend JSX namespace to include the custom element

@@ -51,7 +51,7 @@ const Counter = ({ increment, decrement, value, ...props }: {
 }
 
 // Register as custom element
-customElement('counter-element', ['value', 'class'], Counter)
+customElement('counter-element', Counter, 'value', 'class')
 
 const App = () => {
   const value = $(0)
