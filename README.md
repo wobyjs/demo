@@ -16,6 +16,37 @@
   </a>
 </p>
 
+# Woby Demos
+
+This directory contains various demos showcasing the capabilities of the Woby framework.
+
+## Available Demos
+
+1. [Counter](demo/counter/README.md) - Basic counter component demonstrating custom elements, reactive properties, nested properties, style attributes, and context usage
+2. [Counter SSR](demo/counter.ssr/README.md) - Server-side rendering version of the counter component
+3. More demos coming soon...
+
+## Documentation
+
+For detailed documentation, please see:
+
+- [Framework Documentation](docs/README.md)
+- [Context API](docs/Context-API.md)
+- [Installation Guide](docs/Installation.md)
+- [Basic Demos Overview](docs/Basic-Demos.md)
+- [Contributing Guide](docs/Contributing.md)
+
+## Getting Started
+
+To run the demos:
+
+1. Ensure all dependencies are installed
+2. Build the Woby framework
+3. Serve the demo directory
+4. Open in a web browser
+
+Each demo directory contains its own README with specific instructions for running that demo.
+
 # [Voby](https://woby.dev) Demo Projects
 
 This repository contains demo projects showcasing the capabilities of the Woby framework.

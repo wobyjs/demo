@@ -1,5 +1,156 @@
 # Counter Demo
 
+This demo showcases how to create a custom element using the Woby framework that demonstrates reactive properties, nested properties, and style attributes.
+
+## Overview
+
+The Counter component is a simple counter that displays a value and provides buttons to increment and decrement the value. It demonstrates:
+
+1. Basic custom element creation with `customElement`
+2. Handling of observable properties
+3. Support for nested properties
+4. Style attribute processing
+5. Integration with Woby's reactive system
+6. Direct HTML embedding capability
+7. Context usage with both `useContext` and `useMountedContext`
+
+## Component Structure
+
+### `Counter` Component
+
+A simple counter component that displays a value and provides buttons to increment and decrement the value.
+
+**Props:**
+- `increment`: Function to increment the counter (optional, defaults to incrementing the value)
+- `decrement`: Function to decrement the counter (optional, defaults to decrementing the value)
+- `value`: Observable containing the counter value (optional, defaults to `$(0)`)
+- `nested`: Optional nested properties (optional, defaults to `{ nested: { text: $('abc') } }`)
+
+### Custom Element Registration
+
+The Counter component is registered as a custom element with the tag name `counter-element`.
+
+**Observed Attributes:**
+- `value`: The counter value
+- `class`: CSS classes
+- `style-*`: Style properties (e.g., `style-color`, `style-font-size`)
+- `nested-*`: Nested properties (e.g., `nested-nested-text`)
+
+## Context Usage
+
+The demo demonstrates two different context hooks:
+
+### useContext (JSX/TSX Only)
+
+The standard `useContext` hook works only in JSX/TSX components and relies on the React-like context provider pattern:
+
+```tsx
+const CounterContext = createContext<number>(0)
+
+// Provider component
+<CounterContext.Provider value={42}>
+  <ChildComponent />
+</CounterContext.Provider>
+
+// Consumer component
+const MyComponent = () => {
+  const contextValue = useContext(CounterContext)
+  return <div>Context value: {contextValue}</div>
+}
+```
+
+### useMountedContext (Both JSX/TSX and Custom Elements)
+
+The `useMountedContext` hook works in both JSX/TSX components and custom elements defined directly in HTML. It provides special support for custom elements by attempting to retrieve context from parent elements:
+
+```tsx
+const CounterContext = createContext<number>(0)
+
+// In JSX/TSX components
+const MyComponent = () => {
+  const { ref, context } = useMountedContext(CounterContext)
+  return <div ref={ref}>Context value: {context}</div>
+}
+```
+
+```html
+<!-- In HTML custom elements -->
+<counter-element>
+  <counter-element><!-- This child can access parent's context --></counter-element>
+</counter-element>
+```
+
+## Usage Examples
+
+### As a Custom Element in HTML
+
+The counter element can be embedded directly in HTML files without any JavaScript:
+
+```html
+<counter-element 
+  style-color="red" 
+  style-font-size="2em" 
+  nested-nested-text="xyz" 
+  class="border-2 border-black border-solid bg-amber-400">
+</counter-element>
+```
+
+### As a Custom Element in JSX
+
+```tsx
+const value = $(0)
+const increment = () => value(prev => prev + 1)
+const decrement = () => value(prev => prev - 1)
+
+<counter-element 
+  value={value} 
+  increment={increment} 
+  decrement={decrement}
+  style-color="red" 
+  style-font-size="2em" 
+  nested-nested-text="xyz" 
+  class="border-2 border-black border-solid bg-amber-400">
+</counter-element>
+```
+
+### As a Standard Component
+
+```tsx
+const value = $(0)
+const increment = () => value(prev => prev + 1)
+const decrement = () => value(prev => prev - 1)
+
+<Counter value={value} increment={increment} decrement={decrement} />
+```
+
+## Key Features Demonstrated
+
+### Reactive Properties
+
+The counter value is implemented as an observable, which automatically updates the UI when changed.
+
+### Nested Property Handling
+
+The component demonstrates how nested properties (e.g., `nested-nested-text`) are processed and made available to the component.
+
+### Style Attribute Processing
+
+Style attributes are automatically converted from kebab-case to camelCase and applied to the element's style:
+- `style-color` becomes `color`
+- `style-font-size` becomes `fontSize`
+
+### Memoized Computed Values
+
+The demo shows how to create memoized computed values that automatically update when their dependencies change.
+
+### Direct HTML Embedding
+
+The component can be used directly in HTML files without any JavaScript initialization, making it ideal for progressive enhancement and server-side rendering scenarios.
+
+### Context API Usage
+
+The demo shows how to use both `useContext` (for JSX/TSX components) and `useMountedContext` (for both JSX/TSX and custom elements) to share data between components.
+
 **Location**: `demo/counter/`  
 **Run**: `pnpm dev:counter`  
 **Live Demo**: [CodeSandbox](https://codesandbox.io/s/demo-counter-23fv5)

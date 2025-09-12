@@ -8,8 +8,11 @@
  */
 
 /* IMPORT */
-import { $, $$, useMemo, render, customElement, isObservable } from 'woby'
-import type { Observable, ElementAttributes, ObservableMaybe } from 'woby'
+import { $, $$, useMemo, render, customElement, isObservable, createContext, useContext, useEffect, useMountedContext, useMounted } from 'woby'
+import type { Observable, ElementAttributes, ObservableMaybe, } from 'woby'
+
+const CounterContext = createContext<Observable<number> | null>(null)
+const useCounterContext = () => useMountedContext(CounterContext)
 
 /**
  * Counter Component Properties
@@ -18,14 +21,15 @@ import type { Observable, ElementAttributes, ObservableMaybe } from 'woby'
  */
 interface CounterProps {
     /** Function to increment the counter value */
-    increment?: () => number
+    increment?: () => void
 
     /** Function to decrement the counter value */
-    decrement?: () => number
+    decrement?: () => void
 
     /** Observable containing the current counter value */
     value?: Observable<number>
 
+    children?: JSX.Element
     /** Optional nested property structure */
     nested?: {
         nested: {
@@ -33,9 +37,6 @@ interface CounterProps {
             text: ObservableMaybe<string>
         }
     }
-    
-    /** Nested properties */
-    'nested-nested-text'?: string
 }
 
 /**
@@ -60,23 +61,16 @@ interface CounterProps {
  * <Counter value={value} increment={increment} decrement={decrement} />
  * ```
  */
-const Counter = ({ 
-    increment, 
-    decrement, 
-    value = $(0), 
-    nested = { nested: { text: $('abc') } }, 
-    ...props 
+const Counter = ({
+    increment = () => { if (value) value($$(value) + 1) },
+    decrement = () => { if (value) value(isNaN($$(value)) ? 0 : $$(value) - 1) },
+    value = $(0),
+    nested = { nested: { text: $('abc') } },
+    children,
+    ...props
 }: CounterProps): JSX.Element => {
 
-    // Provide default increment/decrement functions if not provided
-    const handleIncrement = increment || (() => { value($$(value) + 1); return $$(value) + 1; });
-    const handleDecrement = decrement || (() => { value($$(value) - 1); return $$(value) - 1; });
-
-    // const value = $(0)
-
-    // const increment = () => value(prev => prev + 1)
-    // const decrement = () => value(prev => prev - 1)
-
+    const { ref, context } = useCounterContext()
     /**
      * Extract the nested text value
      */
@@ -93,12 +87,25 @@ const Counter = ({
         return $$(value) + '' + $$(v)
     })
 
-    return <div {...props}>
+    useEffect(() => {
+        console.log('mounted', $$(ref))
+    })
+
+    return <div {...props} ref={ref} style={{ border: '1px solid red' }}>
         <h1>Counter</h1>
-        <p>{value}</p>
-        <p>{m}</p>
-        <button onClick={handleIncrement}>+</button>
-        <button onClick={handleDecrement}>-</button>
+        <p>Value: {value}</p>
+        <p>Memo: {m}</p>
+        <p>Parent Context: {context}</p>
+        <button onClick={increment}>+</button>
+        <button onClick={decrement}>-</button>
+
+        {children ?
+            <div style={{ border: '1px solid gray', padding: '10px' }}>
+                <CounterContext.Provider value={value}>
+                    {children}
+                </CounterContext.Provider>
+            </div>
+            : null}
     </div>
 }
 
@@ -114,7 +121,7 @@ const Counter = ({
  * - 'style-*': Style properties (e.g., style-color, style-font-size)
  * - 'nested-*': Nested properties (e.g., nested-nested-text)
  */
-customElement('counter-element', Counter, 'value', 'class', 'style-*', 'nested-nested-text')
+customElement('counter-element', Counter, 'value', 'class', 'style-*', 'nested-*')
 
 /**
  * Extend JSX namespace to include the custom element
@@ -183,6 +190,14 @@ const App = () => {
             nested-nested-text='xyz'
             {...{ value, increment, decrement, nested: { nested: { text: $('abc') } } }}
             class={$('border-2 border-black border-solid bg-amber-400')}>
+
+            <counter-element
+                style-color={'pink'}
+                style-font-size='1em'
+                nested-nested-text=' nested context'
+                {...{ value, increment, decrement, nested: { nested: { text: $('abc') } } }}
+                class={$('border-2 border-black border-solid bg-amber-400')}>
+            </counter-element>,
         </counter-element>,
 
         /**

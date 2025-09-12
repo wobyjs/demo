@@ -12,6 +12,7 @@ The Counter component is a simple counter that displays a value and provides but
 4. Style attribute processing
 5. Integration with Woby's reactive system
 6. Direct HTML embedding capability
+7. Context usage with both `useContext` and `useMountedContext`
 
 ## Component Structure
 
@@ -34,6 +35,50 @@ The Counter component is registered as a custom element with the tag name `count
 - `class`: CSS classes
 - `style-*`: Style properties (e.g., `style-color`, `style-font-size`)
 - `nested-*`: Nested properties (e.g., `nested-nested-text`)
+
+## Context Usage
+
+The demo demonstrates two different context hooks:
+
+### useContext (JSX/TSX Only)
+
+The standard `useContext` hook works only in JSX/TSX components and relies on the React-like context provider pattern:
+
+```tsx
+const CounterContext = createContext<number>(0)
+
+// Provider component
+<CounterContext.Provider value={42}>
+  <ChildComponent />
+</CounterContext.Provider>
+
+// Consumer component
+const MyComponent = () => {
+  const contextValue = useContext(CounterContext)
+  return <div>Context value: {contextValue}</div>
+}
+```
+
+### useMountedContext (Both JSX/TSX and Custom Elements)
+
+The `useMountedContext` hook works in both JSX/TSX components and custom elements defined directly in HTML. It provides special support for custom elements by attempting to retrieve context from parent elements:
+
+```tsx
+const CounterContext = createContext<number>(0)
+
+// In JSX/TSX components
+const MyComponent = () => {
+  const { ref, context } = useMountedContext(CounterContext)
+  return <div ref={ref}>Context value: {context}</div>
+}
+```
+
+```html
+<!-- In HTML custom elements -->
+<counter-element>
+  <counter-element><!-- This child can access parent's context --></counter-element>
+</counter-element>
+```
 
 ## Usage Examples
 
@@ -101,6 +146,10 @@ The demo shows how to create memoized computed values that automatically update 
 ### Direct HTML Embedding
 
 The component can be used directly in HTML files without any JavaScript initialization, making it ideal for progressive enhancement and server-side rendering scenarios.
+
+### Context API Usage
+
+The demo shows how to use both `useContext` (for JSX/TSX components) and `useMountedContext` (for both JSX/TSX and custom elements) to share data between components.
 
 ## Running the Demo
 

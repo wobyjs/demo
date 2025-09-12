@@ -1,3 +1,80 @@
+# Woby Framework Documentation
+
+Welcome to the Woby Framework documentation. This documentation covers the core concepts, API reference, and usage examples for the Woby framework.
+
+## Table of Contents
+
+- [Installation](Installation.md)
+- [Basic Demos](Basic-Demos.md)
+- [Contributing](Contributing.md)
+
+## Core Concepts
+
+### What is Woby?
+
+Woby is a modern, reactive JavaScript framework that provides a lightweight alternative to React with a focus on performance and simplicity. It uses observables for state management and provides a familiar JSX syntax for component creation.
+
+### Key Features
+
+1. **Reactive Observables**: State management using observables for automatic UI updates
+2. **Component-Based Architecture**: Build encapsulated components that manage their own state
+3. **JSX Syntax**: Familiar syntax for component creation
+4. **Custom Elements**: Native web component support with automatic attribute handling
+5. **Lightweight**: Minimal overhead and fast rendering
+6. **TypeScript Support**: First-class TypeScript support with comprehensive type definitions
+
+## API Reference
+
+### Core Methods
+
+- `createElement`: Create DOM elements
+- `render`: Render components to the DOM
+- `customElement`: Create custom HTML elements
+- `$`: Create observables
+- `$$`: Extract values from observables
+
+### Hooks
+
+- `useEffect`: Handle side effects
+- `useMemo`: Memoize computed values
+- `useContext`: Access context values (JSX/TSX only)
+- `useMountedContext`: Access context values (both JSX/TSX and custom elements)
+- `useMounted`: Track component mount state
+
+### Context API
+
+Woby provides two context hooks for sharing data between components:
+
+1. **useContext**: Standard context hook for JSX/TSX components
+   - Works only in JSX/TSX components
+   - Requires explicit Provider components
+   - Follows React-like context patterns
+
+2. **useMountedContext**: Enhanced context hook for both JSX/TSX and custom elements
+   - Works in both JSX/TSX components and HTML custom elements
+   - Automatically retrieves context from parent elements for custom elements
+   - Provides a ref for DOM access
+
+## Demos
+
+Explore the various demos to see Woby in action:
+
+- [Counter](demos/Counter.md): Basic counter component demonstrating custom elements, reactive properties, and context usage
+- More demos coming soon...
+
+## Getting Started
+
+To get started with Woby:
+
+1. Install the framework
+2. Create your first component
+3. Use the provided hooks and methods to build reactive UIs
+4. Leverage custom elements for native web component functionality
+
+## Contributing
+
+See our [Contributing Guide](Contributing.md) for information on how to contribute to the Woby framework.
+
 # Woby Demo Documentation
 
 This directory contains comprehensive documentation for the Woby Demo repository, including guides for all demo applications, development patterns, and contribution guidelines.
