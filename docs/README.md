@@ -218,10 +218,10 @@ docs/
 
 ## 🔗 External Resources
 
-- **[Woby Framework](https://github.com/wongchichong/woby)** - Main framework repository
+- **[Woby Framework](https://github.com/wobyjs/woby)** - Main framework repository
 - **[Live Demos](https://codesandbox.io/@woby)** - CodeSandbox collection
 - **[Framework Docs](../woby/docs/)** - Core framework documentation
-- **[Community Discussions](https://github.com/wongchichong/woby/discussions)** - Ask questions and share ideas
+- **[Community Discussions](https://github.com/wobyjs/woby/discussions)** - Ask questions and share ideas
 
 ## 📊 Documentation Metrics
 

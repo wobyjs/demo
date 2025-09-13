@@ -1,5 +1,5 @@
 {
-    "name": "woby-ssr-counter-demo",
+    "name": "@woby/ssr-counter-demo",
     "version": "1.0.0",
     "description": "A server-side rendering counter demo using Woby framework",
     "main": "server.ts",

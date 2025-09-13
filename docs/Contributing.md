@@ -41,8 +41,8 @@ Thank you for your interest in contributing to the Woby Demo repository! This gu
 ### Initial Setup
 ```bash
 # Clone the repository
-git clone https://github.com/wongchichong/demo.git
-cd woby-demo
+git clone https://github.com/wobyjs/demo.git
+cd demo
 
 # Install dependencies
 pnpm install
@@ -93,7 +93,7 @@ cd demo/my-demo
 #### 2. Create package.json
 ```json
 {
-  "name": "woby-demo-my-demo",
+  "name": "@woby/demo-my-demo",
   "type": "module",
   "scripts": {
     "dev": "vite",

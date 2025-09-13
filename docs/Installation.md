@@ -13,8 +13,8 @@ This guide will help you set up the Woby Demo repository and run the demo applic
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/wongchichong/demo.git
-cd woby-demo
+git clone https://github.com/wobyjs/demo.git
+cd demo
 ```
 
 ### 2. Install Dependencies
@@ -42,7 +42,7 @@ pnpm dev
 ## Project Structure
 
 ```
-woby-demo/
+@woby/demo/
 ├── demo/                    # All demo applications
 │   ├── benchmark/          # Performance benchmarking
 │   ├── boxes/             # Animated boxes demo

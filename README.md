@@ -166,12 +166,12 @@ useInterval(() => {
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/wongchichong/demo.git
+   git clone https://github.com/wobyjs/demo.git
    ```
 
 2. Install dependencies:
    ```bash
-   cd woby-demo
+   cd demo
    pnpm install
    ```
 
@@ -195,13 +195,13 @@ You can also view these demos online:
 
 For comprehensive documentation about Woby, visit:
 
-- **[Official Documentation](https://github.com/wongchichong/woby/blob/main/docs/README.md)**
-- **[API Reference](https://github.com/wongchichong/woby/blob/main/docs/Core-Methods.md)**
-- **[Examples Guide](https://github.com/wongchichong/woby/blob/main/docs/Examples.md)**
+- **[Official Documentation](https://github.com/wobyjs/woby/blob/main/docs/README.md)**
+- **[API Reference](https://github.com/wobyjs/woby/blob/main/docs/Core-Methods.md)**
+- **[Examples Guide](https://github.com/wobyjs/woby/blob/main/docs/Examples.md)**
 
 ## Contributing
 
-Contributions are welcome! Please read our [contributing guidelines](https://github.com/wongchichong/woby/blob/main/docs/Contributing.md) before submitting pull requests.
+Contributions are welcome! Please read our [contributing guidelines](https://github.com/wobyjs/woby/blob/main/docs/Contributing.md) before submitting pull requests.
 
 ## License
 

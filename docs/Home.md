@@ -87,8 +87,8 @@ All demos are available as live CodeSandbox examples:
 
 ## 🔗 Related Resources
 
-- **[Woby Framework Documentation](https://github.com/wongchichong/woby)** - Main framework docs
-- **[Woby Main Repository](https://github.com/wongchichong/woby)** - Source code
+- **[Woby Framework Documentation](https://github.com/wobyjs/woby)** - Main framework docs
+- **[Woby Main Repository](https://github.com/wobyjs/woby)** - Source code
 - **[CodeSandbox Collection](https://codesandbox.io/@woby)** - All live demos
 
 ## 📖 About This Wiki
@@ -102,4 +102,4 @@ This documentation provides:
 
 ---
 
-*For questions or contributions, visit the [main Woby repository](https://github.com/wongchichong/woby) or check our [Contributing Guide](./Contributing.md).*
+*For questions or contributions, visit the [main Woby repository](https://github.com/wobyjs/woby) or check our [Contributing Guide](./Contributing.md).*
