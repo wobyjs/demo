@@ -8,11 +8,11 @@
  */
 
 /* IMPORT */
-import { $, $$, useMemo, render, customElement, isObservable, createContext, useContext, useEffect, useMountedContext, useMounted } from 'woby'
-import type { Observable, ElementAttributes, ObservableMaybe, } from 'woby'
+import { $, $$, useMemo, render, customElement, isObservable, createContext, useContext, useEffect, defaults, SYMBOL_DEFAULT, useMountedContext } from 'woby'
+import type { Observable, ElementAttributes, ObservableMaybe } from 'woby'
 
 const CounterContext = createContext<Observable<number> | null>(null)
-const useCounterContext = () => useMountedContext(CounterContext)
+const useCounterContext = () => useContext(CounterContext)
 
 /**
  * Counter Component Properties
@@ -20,6 +20,7 @@ const useCounterContext = () => useMountedContext(CounterContext)
  * Defines the interface for the Counter component's properties.
  */
 interface CounterProps {
+    title?: ObservableMaybe<string>
     /** Function to increment the counter value */
     increment?: () => void
 
@@ -29,6 +30,7 @@ interface CounterProps {
     /** Observable containing the current counter value */
     value?: Observable<number>
 
+    disabled?: Observable<boolean>
     children?: JSX.Element
     /** Optional nested property structure */
     nested?: {
@@ -39,75 +41,85 @@ interface CounterProps {
     }
 }
 
+// Apply defaults to the Counter component manually
+const def = () => {
+    const value = $(0, { type: 'number' } as const)
+    return {
+        title: $('Counter'),
+        value,
+        increment: () => { value($$(value) + 1) },
+        decrement: () => { value($$(value) - 1) },
+        nested: { nested: { text: $('abc') } },
+        disabled: $(false, { type: 'boolean' } as const),
+        children: undefined
+    }
+}
+
 /**
  * Counter Component
- * 
- * A simple counter component that displays a value and provides
- * buttons to increment and decrement the value.
- * 
- * @param props - Component properties
- * @param props.increment - Function to increment the counter
- * @param props.decrement - Function to decrement the counter
- * @param props.value - Observable containing the counter value
- * @param props.nested - Optional nested properties
- * @returns JSX element representing the counter
- * 
- * @example
- * ```tsx
- * const value = $(0)
- * const increment = () => value(prev => prev + 1)
- * const decrement = () => value(prev => prev - 1)
- * 
- * <Counter value={value} increment={increment} decrement={decrement} />
- * ```
  */
-const Counter = ({
-    increment = () => { if (value) value($$(value) + 1) },
-    decrement = () => { if (value) value(isNaN($$(value)) ? 0 : $$(value) - 1) },
-    value = $(0),
-    nested = { nested: { text: $('abc') } },
-    children,
-    ...props
-}: CounterProps): JSX.Element => {
+const Counter = defaults(def, (props) => {
+    const {
+        title,
+        increment,
+        decrement,
+        value,
+        nested,
+        disabled,
+        children,
+        ...restProps
+    } = props
 
-    const { ref, context } = useCounterContext()
+    // const context = useCounterContext()
+    const { ref, context } = useMountedContext(CounterContext)
+
     /**
      * Extract the nested text value
      */
-    const v = nested.nested.text
+    const v = useMemo(() => $$($$($$(nested)?.nested)?.text))
 
     /**
      * Memoized computed value combining counter value and nested text
-     * 
-     * This value will automatically update when either the counter value
-     * or the nested text changes.
      */
     const m = useMemo(() => {
-        console.log($$(value) + '' + $$(v))
         return $$(value) + '' + $$(v)
     })
 
-    useEffect(() => {
-        console.log('mounted', $$(ref))
-    })
+    // useEffect(() => {
+    //     console.log('children', $$(children))
+    // })
+    // useEffect(() => {
+    //     console.log('context', $$(context))
+    // })
 
-    return <div {...props} ref={ref} style={{ border: '1px solid red' }}>
-        <h1>Counter</h1>
-        <p>Value: {value}</p>
-        <p>Memo: {m}</p>
-        <p>Parent Context: {context}</p>
-        <button onClick={increment}>+</button>
-        <button onClick={decrement}>-</button>
+    return (
+        <div {...restProps} style={{ border: '1px solid red' }}>
+            <h1>{title}</h1>
+            <p>Value: {value}</p>
+            <p>Memo: {m}</p>
+            <p>Parent Context: {context}</p>
+            <button disabled={disabled} onClick={increment}>+</button>
+            <button disabled={disabled} onClick={decrement}>-</button>
 
-        {children ?
-            <div style={{ border: '1px solid gray', padding: '10px' }}>
-                <CounterContext.Provider value={value}>
-                    {children}
-                </CounterContext.Provider>
-            </div>
-            : null}
-    </div>
-}
+            {() => $$(children) ?
+                <div style={{ border: '1px solid gray', padding: '10px' }}>
+                    <CounterContext.Provider ref={ref} value={value}>
+                        {children}
+                    </CounterContext.Provider>
+                </div>
+                : null}
+        </div>
+    )
+})
+
+const ContextValue = defaults(() => ({}), (props) => {
+    // console.log('ContextValue', props)
+    const context = useCounterContext()
+    // useEffect(() => console.log('ContextValue useEffect', $$(context)))
+    return <div>Context Value: {context}</div>
+})
+
+
 
 /**
  * Register the Counter component as a custom element
@@ -121,7 +133,11 @@ const Counter = ({
  * - 'style-*': Style properties (e.g., style-color, style-font-size)
  * - 'nested-*': Nested properties (e.g., nested-nested-text)
  */
-customElement('counter-element', Counter, 'value', 'class', 'style-*', 'nested-*')
+customElement('counter-element', Counter)
+customElement('context-value', ContextValue)
+
+// Export components for potential use in other modules
+export { Counter, ContextValue, CounterContext, useCounterContext }
 
 /**
  * Extend JSX namespace to include the custom element
@@ -143,17 +159,13 @@ declare module 'woby' {
              * - Nested properties via the nested-* pattern
              */
             'counter-element': ElementAttributes<typeof Counter>
+            'context-value': ElementAttributes<typeof ContextValue>
         }
     }
 }
 
 /**
  * Application Component
- * 
- * Main application component that demonstrates the counter custom element
- * and the standard Counter component.
- * 
- * @returns Array of JSX elements
  */
 const App = () => {
     /**
@@ -163,48 +175,85 @@ const App = () => {
 
     /**
      * Increment function
-     * 
-     * Increases the counter value by 1.
      */
     const increment = () => value(prev => prev + 1)
 
     /**
      * Decrement function
-     * 
-     * Decreases the counter value by 1.
      */
     const decrement = () => value(prev => prev - 1)
 
-    //style-font-size='2em'
-    return [
-        /**
-         * Custom element usage with various attribute types:
-         * - style-color: Sets text color to red
-         * - style-font-size: Sets font size to 2em
-         * - nested-nested-text: Sets nested text property to 'xyz'
-         * - class: Sets CSS classes for styling
-         */
-        <counter-element
+    return <>
+        {/* <h1>Custom element in TSX:<br /></h1>
+        <counter-element title={'Custom element in TSX'}
             style-color={'red'}
-            style-font-size='2em'
+            style-font-size='1.1em'
             nested-nested-text='xyz'
-            {...{ value, increment, decrement, nested: { nested: { text: $('abc') } } }}
-            class={$('border-2 border-black border-solid bg-amber-400')}>
+            // value={0}
+            // increment={increment}
+            // decrement={decrement}
+            nested={{ nested: { text: $('abc') } }}
+            class={'border-2 border-black border-solid bg-amber-400'}>
+            <context-value />
+            <ContextValue />
 
-            <counter-element
-                style-color={'pink'}
+            <h2>Nested Custom element in TSX:<br /></h2>
+
+            <counter-element title={'counter-element Nested'}
+                style-color={'orange'}
                 style-font-size='1em'
                 nested-nested-text=' nested context'
-                {...{ value, increment, decrement, nested: { nested: { text: $('abc') } } }}
-                class={$('border-2 border-black border-solid bg-amber-400')}>
-            </counter-element>,
-        </counter-element>,
+                value={value}
+                increment={increment}
+                decrement={decrement}
+                nested={{ nested: { text: $(' nested context') } }}
+                class={'border-2 border-black border-solid bg-amber-400 m-10'}>
+                <context-value />
+                <ContextValue />
+            </counter-element>
+        </counter-element>
 
-        /**
-         * Standard component usage
-         */
-        <Counter {...{ value, increment, decrement }} />
-    ]
+        <h1>Pure TSX</h1>
+        <Counter title='TSX Counter Main' value={value} increment={increment} decrement={decrement} >
+            <context-value />
+            <ContextValue />
+            <Counter title='TSX Counter Nested' >
+                <context-value />
+                <ContextValue />
+            </Counter>
+        </Counter>
+
+        <h1>TSX - HTML</h1>
+        <Counter title='TSX - HTML Counter Main' >
+            <context-value />
+            <ContextValue />
+            <counter-element title={'counter-element Nested'}
+                style-color={'orange'}
+                style-font-size='1em'
+                nested-nested-text=' nested context'
+                nested={{ nested: { text: $(' nested context') } }}
+                class={'border-2 border-black border-solid bg-amber-400 m-10'}>
+                <context-value />
+                <ContextValue />
+            </counter-element>
+        </Counter>
+
+        <h1>HTML - TSX</h1>
+        <counter-element title={'HTML - TSX main'}
+            style-color={'orange'}
+            style-font-size='1em'
+            nested-nested-text=' nested context'
+            nested={{ nested: { text: $(' nested context') } }}
+            class={'border-2 border-black border-solid bg-amber-400 m-10'}>
+            <context-value />
+            <ContextValue />
+            <Counter title='TSX Counter nested' >
+                <context-value />
+                <ContextValue />
+            </Counter>
+        </counter-element> */}
+
+    </>
 }
 
 /**
@@ -213,3 +262,5 @@ const App = () => {
  * Mounts the App component to the element with ID 'app'.
  */
 render(<App />, document.getElementById('app'))
+
+export default Counter
