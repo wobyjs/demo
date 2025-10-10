@@ -14,33 +14,6 @@ import type { Observable, ElementAttributes, ObservableMaybe } from 'woby'
 const CounterContext = createContext<Observable<number> | null>(null)
 const useCounterContext = () => useContext(CounterContext)
 
-/**
- * Counter Component Properties
- * 
- * Defines the interface for the Counter component's properties.
- */
-interface CounterProps {
-    title?: ObservableMaybe<string>
-    /** Function to increment the counter value */
-    increment?: () => void
-
-    /** Function to decrement the counter value */
-    decrement?: () => void
-
-    /** Observable containing the current counter value */
-    value?: Observable<number>
-
-    disabled?: Observable<boolean>
-    children?: JSX.Element
-    /** Optional nested property structure */
-    nested?: {
-        nested: {
-            /** Text value that can be either observable or plain string */
-            text: ObservableMaybe<string>
-        }
-    }
-}
-
 // Apply defaults to the Counter component manually
 const def = () => {
     const value = $(0, { type: 'number' } as const)
@@ -91,32 +64,40 @@ const Counter = defaults(def, (props) => {
     // useEffect(() => {
     //     console.log('context', $$(context))
     // })
+    // useEffect(() => {
+    //     console.log('ref', $$(ref))
+    // })
 
     return (
-        <div {...restProps} style={{ border: '1px solid red' }}>
+        <div ref={ref} {...restProps} style={{ border: '1px solid red' }}>
             <h1>{title}</h1>
             <p>Value: {value}</p>
             <p>Memo: {m}</p>
-            <p>Parent Context: {context}</p>
+            <p>Parent Context (TSX): {context}</p>
+            {/* <p>ContextElement: <ContextValue /></p> */}
             <button disabled={disabled} onClick={increment}>+</button>
             <button disabled={disabled} onClick={decrement}>-</button>
 
             {() => $$(children) ?
                 <div style={{ border: '1px solid gray', padding: '10px' }}>
-                    <CounterContext.Provider ref={ref} value={value}>
+                    <CounterContext.Provider ref={$()} value={value}>
                         {children}
                     </CounterContext.Provider>
                 </div>
                 : null}
+            <p>------------{title} compoent end-------------</p>
         </div>
     )
 })
 
 const ContextValue = defaults(() => ({}), (props) => {
     // console.log('ContextValue', props)
-    const context = useCounterContext()
-    // useEffect(() => console.log('ContextValue useEffect', $$(context)))
-    return <div>Context Value: {context}</div>
+    // const context = useCounterContext()
+    const { ref, context } = useMountedContext(CounterContext)
+
+    // useEffect(() => console.log('ContextValue useEffect', $$(ref), $$($$(context))))
+    // const ctx = useMemo(() => $$($$(context)))
+    return <span ref={ref}>(Context Value = {context})</span>
 })
 
 
@@ -184,7 +165,7 @@ const App = () => {
     const decrement = () => value(prev => prev - 1)
 
     return <>
-        {/* <h1>Custom element in TSX:<br /></h1>
+        <h1>Custom element in TSX:<br /></h1>
         <counter-element title={'Custom element in TSX'}
             style-color={'red'}
             style-font-size='1.1em'
@@ -251,7 +232,7 @@ const App = () => {
                 <context-value />
                 <ContextValue />
             </Counter>
-        </counter-element> */}
+        </counter-element>
 
     </>
 }

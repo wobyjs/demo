@@ -37,23 +37,17 @@ Woby is a modern, reactive JavaScript framework that provides a lightweight alte
 
 - `useEffect`: Handle side effects
 - `useMemo`: Memoize computed values
-- `useContext`: Access context values (JSX/TSX only)
-- `useMountedContext`: Access context values (both JSX/TSX and custom elements)
+- `useContext`: Access context values (both JSX/TSX and custom elements)
 - `useMounted`: Track component mount state
 
 ### Context API
 
-Woby provides two context hooks for sharing data between components:
+Woby provides a context hook for sharing data between components:
 
-1. **useContext**: Standard context hook for JSX/TSX components
-   - Works only in JSX/TSX components
-   - Requires explicit Provider components
-   - Follows React-like context patterns
-
-2. **useMountedContext**: Enhanced context hook for both JSX/TSX and custom elements
+1. **useContext**: Standard context hook for both JSX/TSX components and custom elements
    - Works in both JSX/TSX components and HTML custom elements
-   - Automatically retrieves context from parent elements for custom elements
-   - Provides a ref for DOM access
+   - Requires explicit Provider components
+   - Follows React-like context patterns with enhanced custom element support
 
 ## Demos
 

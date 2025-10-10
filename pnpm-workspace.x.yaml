@@ -4,5 +4,7 @@ packages:
   - 'demo/*'
   # all packages in subdirs of components/
   - 'components/**'
+  # include the woby package from the parent directory
+  - '../woby'
   # exclude packages that are inside test directories
   - '!**/test/**'

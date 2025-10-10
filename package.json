@@ -41,7 +41,7 @@
     "//for powershell": "",
     "clean:nm:ps": "Get-ChildItem -Path . -Include node_modules -Recurse -Directory | Remove-Item -Force -Recurse -Confirm:$false",
     "clean:nm": "for /d /r . %d in (node_modules) do @if exist \"%d\" (echo Removing \"%d\" & rd /s /q \"%d\")",
-    "git": "git add . && git commit -m \"Bump version\" && git push",
+    "git": "git-cliff > CHANGELOG.md && git-commit-m",
     "bump": "pnpm version patch",
     "npmjs": "pnpm publish",
     "release": "run-s -c git bump npmjs",
