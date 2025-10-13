@@ -31,10 +31,7 @@ A simple counter component that displays a value and provides buttons to increme
 The Counter component is registered as a custom element with the tag name `counter-element`.
 
 **Observed Attributes:**
-- `value`: The counter value
-- `class`: CSS classes
-- `style-*`: Style properties (e.g., `style-color`, `style-font-size`)
-- `nested-*`: Nested properties (e.g., `nested-nested-text`)
+All props defined in the component's defaults are automatically observed as attributes.
 
 ## Context Usage
 
@@ -76,18 +73,21 @@ The demo shows how to use `useContext` (for both JSX/TSX components and custom e
 
 The counter element can be embedded directly in HTML files without any JavaScript:
 
-```
+```html
 <counter-element 
-  style-color="red" 
-  style-font-size="2em" 
-  nested-nested-text="xyz" 
+  style$color="red" 
+  style$font-size="2em" 
+  style.color="blue"
+  style.font-size="1.5em"
+  nested$nested$text="xyz" 
+  nested.nested.text="abc"
   class="border-2 border-black border-solid bg-amber-400">
 </counter-element>
 ```
 
 ### As a Custom Element in JSX
 
-```
+```tsx
 const value = $(0)
 const increment = () => value(prev => prev + 1)
 const decrement = () => value(prev => prev - 1)
@@ -96,16 +96,15 @@ const decrement = () => value(prev => prev - 1)
   value={value} 
   increment={increment} 
   decrement={decrement}
-  style-color="red" 
-  style-font-size="2em" 
-  nested-nested-text="xyz" 
+  style$font-size="2em" 
+  nested$nested$text="xyz" 
   class="border-2 border-black border-solid bg-amber-400">
 </counter-element>
 ```
 
 ### As a Standard Component
 
-```
+```tsx
 const value = $(0)
 const increment = () => value(prev => prev + 1)
 const decrement = () => value(prev => prev - 1)
@@ -121,13 +120,17 @@ The counter value is implemented as an observable, which automatically updates t
 
 ### Nested Property Handling
 
-The component demonstrates how nested properties (e.g., `nested-nested-text`) are processed and made available to the component.
+The component demonstrates how nested properties are processed and made available to the component:
+- In HTML: Both `$` notation (`nested$nested$text`) and `.` notation (`nested.nested.text`) work
+- In JSX: Only `$` notation (`nested$nested$text`) works
 
 ### Style Attribute Processing
 
 Style attributes are automatically converted from kebab-case to camelCase and applied to the element's style:
-- `style-color` becomes `color`
-- `style-font-size` becomes `fontSize`
+- `style$color` becomes `color`
+- `style$font-size` becomes `fontSize`
+- `style.color` becomes `color`
+- `style.font-size` becomes `fontSize`
 
 ### Memoized Computed Values
 
@@ -160,34 +163,59 @@ The Counter demo is the foundational example that demonstrates core Woby concept
 
 ## Complete Source Code
 
-```
+```tsx
 /* IMPORT */
-import { $, $$, useMemo, render, Observable, customElement, ElementAttributes } from 'woby'
+import { 
+  $, 
+  $$, 
+  useMemo, 
+  render, 
+  Observable, 
+  customElement, 
+  ElementAttributes,
+  defaults
+} from 'woby'
 
 /* MAIN */
 
-const Counter = ({ increment, decrement, value, ...props }: { 
-  increment: () => number, 
-  decrement: () => number, 
-  value: Observable<number> 
-}): JSX.Element => {
-  const v = $('abc')
+// Define component with defaults
+const Counter = defaults(() => ({
+  value: $(0, { type: 'number' } as const),
+  title: $('Counter'),
+  increment: $([() => { /* implementation */ }], { toHtml: o => undefined }),
+  nested: { nested: { text: $('abc') } },
+  obj: $({ nested: { text: 'abc' } }, { toHtml: o => JSON.stringify(o), fromHtml: o => JSON.parse(o) }),
+  date: $(new Date(), { toHtml: o => o.toISOString(), fromHtml: o => new Date(o) }),
+  disabled: $(false, { type: 'boolean' } as const),
+  children: undefined
+}), ({ title, increment: inc, value, nested, disabled, obj, date, children, ...restProps }) => {
+  // Access the function from the observable array
+  const increment = $$(inc)[0] ?? (() => { value($$(value) + 1) })
+  const decrement = () => { value($$(value) - 1) }
+
+  const v = useMemo(() => $$($$($$(nested)?.nested)?.text))
+
   const m = useMemo(() => {
-    console.log($$(value) + $$(v))
-    return $$(value) + $$(v)
+    return $$(value) + '' + $$(v)
   })
-  
-  return <div {...props}>
-    <h1>Counter</h1>
-    <p>{value}</p>
-    <p>{m}</p>
-    <button onClick={increment}>+</button>
-    <button onClick={decrement}>-</button>
-  </div>
-}
+
+  return (
+    <div {...restProps} style={{ border: '1px solid red' }}>
+      <h1>{title}</h1>
+      <p>Value: <b>{value}</b></p>
+      <p>Memo: <b>{m}</b></p>
+      <p>Object: {() => JSON.stringify($$(obj))}</p>
+      <p>Date: {() => $$(date).toString()}</p>
+      <button disabled={disabled} onClick={increment}>+</button>
+      <button disabled={disabled} onClick={decrement}>-</button>
+      {() => $$(children) ? <div style={{ border: '1px solid gray', padding: '10px' }}>{children}</div> : null}
+      <p>------------{title} component end-------------</p>
+    </div>
+  )
+})
 
 // Register as custom element
-customElement('counter-element', Counter, 'value', 'class')
+customElement('counter-element', Counter)
 
 // TypeScript declaration for custom element
 declare module 'woby' {
@@ -203,13 +231,16 @@ const App = () => {
   const increment = () => value(prev => prev + 1)
   const decrement = () => value(prev => prev - 1)
 
-  return [
+  return (
     <counter-element 
-      {...{ value, increment, decrement }} 
-      class="border-2 border-black border-solid bg-amber-400"
-    />,
-    <Counter {...{ value, increment, decrement }} />
-  ]
+      title={'Custom element in TSX'}
+      style$color={'red'}
+      style$font-size='1.1em'
+      nested$nested$text='xyz'
+      obj={$({ nested: { text: 'this obj will be serialized and deserialized to html attribute' }}, { toHtml: obj => JSON.stringify(obj), fromHtml: obj => JSON.parse(obj) })}
+      class={'border-2 border-black border-solid bg-amber-400'}>
+    </counter-element>
+  )
 }
 
 render(<App />, document.getElementById('app'))
@@ -227,51 +258,70 @@ import {
   render,         // DOM rendering
   Observable,     // Type definition
   customElement,  // Custom element registration
-  ElementAttributes // Type helper
+  ElementAttributes, // Type helper
+  defaults        // Default props helper
 } from 'woby'
 ```
 
-### 2. Counter Component
+### 2. Counter Component with Defaults
 
 The main `Counter` component demonstrates several key concepts:
 
 ```typescript
-const Counter = ({ increment, decrement, value, ...props }) => {
-  // Local observable state
-  const v = $('abc')
-  
-  // Computed value using useMemo
+const Counter = defaults(() => ({
+  value: $(0, { type: 'number' } as const),
+  title: $('Counter'),
+  increment: $([() => { /* implementation */ }], { toHtml: o => undefined }),
+  nested: { nested: { text: $('abc') } },
+  obj: $({ nested: { text: 'abc' } }, { toHtml: o => JSON.stringify(o), fromHtml: o => JSON.parse(o) }),
+  date: $(new Date(), { toHtml: o => o.toISOString(), fromHtml: o => new Date(o) }),
+  disabled: $(false, { type: 'boolean' } as const),
+  children: undefined
+}), ({ title, increment: inc, value, nested, disabled, obj, date, children, ...restProps }) => {
+  // Access the function from the observable array
+  const increment = $$(inc)[0] ?? (() => { value($$(value) + 1) })
+  const decrement = () => { value($$(value) - 1) }
+
+  const v = useMemo(() => $$($$($$(nested)?.nested)?.text))
+
   const m = useMemo(() => {
-    return $$(value) + $$(v)  // $$ unwraps observable values
+    return $$(value) + '' + $$(v)
   })
-  
-  return <div {...props}>
-    <h1>Counter</h1>
-    <p>{value}</p>        {/* Observable displayed directly */}
-    <p>{m}</p>            {/* Computed value displayed */}
-    <button onClick={increment}>+</button>
-    <button onClick={decrement}>-</button>
-  </div>
-}
+
+  return (
+    <div {...restProps} style={{ border: '1px solid red' }}>
+      <h1>{title}</h1>
+      <p>Value: <b>{value}</b></p>
+      <p>Memo: <b>{m}</b></p>
+      <p>Object: {() => JSON.stringify($$(obj))}</p>
+      <p>Date: {() => $$(date).toString()}</p>
+      <button disabled={disabled} onClick={increment}>+</button>
+      <button disabled={disabled} onClick={decrement}>-</button>
+      {() => $$(children) ? <div style={{ border: '1px solid gray', padding: '10px' }}>{children}</div> : null}
+      <p>------------{title} component end-------------</p>
+    </div>
+  )
+})
 ```
 
 **Key Points:**
-- **Props Interface**: Component accepts functions and observables as props
-- **Local State**: `v = $('abc')` creates component-local reactive state
-- **Computed Values**: `useMemo` automatically tracks dependencies
-- **Observable Unwrapping**: `$$()` extracts current value from observables
-- **Direct Display**: Observables can be displayed directly in JSX
+- **Defaults Function**: Uses `defaults()` to define component props with proper typing
+- **Typed Observables**: Observables have type information for automatic conversion
+- **Function Storage**: Functions stored in arrays with `toHtml: o => undefined` to hide from HTML
+- **Custom Serialization**: Objects and Dates use `toHtml`/`fromHtml` for serialization
+- **Nested Properties**: Supports nested object structures
+- **Children Support**: Handles child elements properly
 
 ### 3. Custom Element Registration
 
 ```typescript
-customElement('counter-element', Counter, 'value', 'class')
+customElement('counter-element', Counter)
 ```
 
 This registers the `Counter` component as a custom web element:
 - **Element Name**: `counter-element`
-- **Watched Attributes**: `['value', 'class']`
-- **Component**: The `Counter` function component
+- **Component**: The `Counter` function component with defaults
+- **Automatic Attribute Handling**: All props automatically observed as attributes
 
 ### 4. TypeScript Integration
 
@@ -290,33 +340,28 @@ This provides full TypeScript support for the custom element, including:
 - **Attribute Validation**: Compile-time checking of attributes
 - **IntelliSense**: Auto-completion in IDEs
 
-### 5. App Component and State Management
+### 5. App Component and Usage
 
 ```typescript
 const App = () => {
-  // Application state
-  const value = $(0)
-  
-  // State update functions
-  const increment = () => value(prev => prev + 1)
-  const decrement = () => value(prev => prev - 1)
-
-  // Render both custom element and regular component
-  return [
+  return (
     <counter-element 
-      {...{ value, increment, decrement }} 
-      class="border-2 border-black border-solid bg-amber-400"
-    />,
-    <Counter {...{ value, increment, decrement }} />
-  ]
+      title={'Custom element in TSX'}
+      style$color={'red'}
+      style$font-size='1.1em'
+      nested$nested$text='xyz'
+      obj={$({ nested: { text: 'this obj will be serialized and deserialized to html attribute' }}, { toHtml: obj => JSON.stringify(obj), fromHtml: obj => JSON.parse(obj) })}
+      class={'border-2 border-black border-solid bg-amber-400'}>
+    </counter-element>
+  )
 }
 ```
 
 **Key Points:**
-- **Observable State**: `$(0)` creates reactive state
-- **Function Updates**: `prev => prev + 1` safely updates state
-- **State Sharing**: Same state shared between components
-- **Multiple Rendering**: Both custom element and component versions
+- **Consistent Notation**: Uses `$` notation for JSX attributes
+- **Style Properties**: `style$color` and `style$font-size` work in JSX
+- **Nested Properties**: `nested$nested$text` for nested object access
+- **Custom Serialization**: Objects with `toHtml`/`fromHtml` functions
 
 ## Key Learning Concepts
 
@@ -365,19 +410,37 @@ Components work naturally with observables:
 - **Display**: Observables displayed directly in JSX
 - **Events**: Functions called directly from event handlers
 
-### 4. Custom Elements
+### 4. Custom Elements with Consistent Notation
 
+```html
+<!-- HTML usage - both syntaxes work -->
+<counter-element 
+  style$color="red" 
+  style$font-size="2em" 
+  style.color="blue"
+  style.font-size="1.5em"
+  nested$nested$text="xyz"
+  nested.nested.text="abc">
+</counter-element>
 ```
-customElement('my-counter', Counter, 'value')
 
-// Use as web component
-<my-counter value={count} onIncrement={handleIncrement} />
+```tsx
+// JSX usage - only $ notation works
+<counter-element 
+  style$color={'red'}
+  style$font-size='2em'
+  nested$nested$text='xyz'>
+</counter-element>
 ```
 
-Turn any component into a web component:
-- **Standard APIs**: Works with standard DOM APIs
-- **Attribute Mapping**: Maps HTML attributes to component props
-- **Bidirectional**: Component can update attributes
+Turn any component into a web component with flexible syntax support:
+- **Style Properties**: 
+  - HTML: `style$property-name` or `style.property-name`
+  - JSX: `style$property-name`
+- **Nested Properties**: 
+  - HTML: `parent$child$property` or `parent.child.property`
+  - JSX: `parent$child$property`
+- **Standard Attributes**: Work as expected (class, id, etc.)
 
 ## Performance Characteristics
 
@@ -412,7 +475,7 @@ increment()
 
 ### State Update Patterns
 
-```
+```tsx
 // Increment
 const increment = () => count(prev => prev + 1)
 
@@ -431,7 +494,7 @@ const doubleIncrement = () => batch(() => {
 
 ### Component Communication
 
-```
+```tsx
 // Parent component manages state
 const Parent = () => {
   const value = $(0)
@@ -448,7 +511,7 @@ const Counter = ({ value, onIncrement }) => (
 
 ### Add Reset Functionality
 
-```
+```tsx
 const App = () => {
   const value = $(0)
   const increment = () => value(prev => prev + 1)
@@ -466,7 +529,7 @@ const App = () => {
 
 ### Add Step Size
 
-```
+```tsx
 const Counter = () => {
   const count = $(0)
   const step = $(1)
@@ -487,7 +550,7 @@ const Counter = () => {
 
 ### Add Persistence
 
-```
+```tsx
 const Counter = () => {
   const count = $(parseInt(localStorage.getItem('count') || '0'))
   

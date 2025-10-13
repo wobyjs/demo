@@ -31,10 +31,7 @@ A simple counter component that displays a value and provides buttons to increme
 The Counter component is registered as a custom element with the tag name `counter-element`.
 
 **Observed Attributes:**
-- `value`: The counter value
-- `class`: CSS classes
-- `style-*`: Style properties (e.g., `style-color`, `style-font-size`)
-- `nested-*`: Nested properties (e.g., `nested-nested-text`)
+All props defined in the component's defaults are automatically observed as attributes.
 
 ## Context Usage
 
@@ -44,7 +41,7 @@ The demo demonstrates context hooks:
 
 The `useContext` hook works in both JSX/TSX components and custom elements defined directly in HTML. It provides special support for custom elements by attempting to retrieve context from parent elements:
 
-```tsx
+``tsx
 const CounterContext = createContext<number>(0)
 
 // Provider component
@@ -59,7 +56,7 @@ const MyComponent = () => {
 }
 ```
 
-```html
+``html
 <!-- In HTML custom elements -->
 <counter-element>
   <counter-element><!-- This child can access parent's context --></counter-element>
@@ -74,9 +71,12 @@ The counter element can be embedded directly in HTML files without any JavaScrip
 
 ```html
 <counter-element 
-  style-color="red" 
-  style-font-size="2em" 
-  nested-nested-text="xyz" 
+  style$color="red" 
+  style$font-size="2em" 
+  style.color="blue"
+  style.font-size="1.5em"
+  nested$nested$text="xyz" 
+  nested.nested.text="abc"
   class="border-2 border-black border-solid bg-amber-400">
 </counter-element>
 ```
@@ -92,9 +92,8 @@ const decrement = () => value(prev => prev - 1)
   value={value} 
   increment={increment} 
   decrement={decrement}
-  style-color="red" 
-  style-font-size="2em" 
-  nested-nested-text="xyz" 
+  style$font-size="2em" 
+  nested$nested$text="xyz" 
   class="border-2 border-black border-solid bg-amber-400">
 </counter-element>
 ```
@@ -117,13 +116,17 @@ The counter value is implemented as an observable, which automatically updates t
 
 ### Nested Property Handling
 
-The component demonstrates how nested properties (e.g., `nested-nested-text`) are processed and made available to the component.
+The component demonstrates how nested properties are processed and made available to the component:
+- In HTML: Both `$` notation (`nested$nested$text`) and `.` notation (`nested.nested.text`) work
+- In JSX: Only `$` notation (`nested$nested$text`) works
 
 ### Style Attribute Processing
 
 Style attributes are automatically converted from kebab-case to camelCase and applied to the element's style:
-- `style-color` becomes `color`
-- `style-font-size` becomes `fontSize`
+- `style$color` becomes `color`
+- `style$font-size` becomes `fontSize`
+- `style.color` becomes `color`
+- `style.font-size` becomes `fontSize`
 
 ### Memoized Computed Values
 

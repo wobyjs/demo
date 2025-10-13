@@ -1,0 +1,16 @@
+commit e6a3174ac76189abba376b66351548d7b95a18ab
+Author: wongchichong <wongchichong@gmail.com>
+Date:   Tue Feb 14 18:26:17 2023 +0800
+
+    vite v4, jsx-runtime
+
+diff --git a/demo/counter/index.tsx b/demo/counter/index.tsx
+index 7b88d7d..da1b514 100644
+--- a/demo/counter/index.tsx
++++ b/demo/counter/index.tsx
+@@ -1,6 +1,5 @@
+ 
+ /* IMPORT */
+-
+ import { $, render } from 'voby'
+ import type { JSX } from 'voby'
