@@ -16,27 +16,33 @@
  */
 
 /* IMPORT */
-import { $, $$, useMemo, render, customElement, isObservable, createContext, useContext, useEffect, defaults, SYMBOL_DEFAULT, useMountedContext, type ElementAttributes } from 'woby'
-import type { ObservableReadonly } from 'soby'
+import { $, $$, useMemo, render, customElement, DEBUGGER, useAttached, isObservable, createContext, useContext, useEffect, defaults, SYMBOL_DEFAULT, useMountedContext, type ElementAttributes, SYMBOL_OBSERVABLE_WRITABLE, useLightDom, Context, ObservableMaybe } from 'woby'
+
+DEBUGGER.verboseComment = true
 
 const CounterContext = createContext(null)
-const useCounterContext = () => useContext(CounterContext)
+const NestedContext = createContext(null)
+// const useCounterContext = () => useContext(CounterContext)
+
+const useCounterContext = () => useMountedContext(CounterContext)
+const useNestedContext = (ref?: ObservableMaybe<Node>) => useMountedContext(NestedContext, ref)
 
 // Apply defaults to the Counter component manually
 const def = () => {
-    const value = $(0, { type: 'number' } as const)
+    const value: ObservableMaybe<number> | undefined = $(0, { type: 'number' } as const)
     return {
-        title: $('Counter'),
+        title: $('Counter') as (ObservableMaybe<string> | undefined),
         // Store function in observable array to hide it from HTML attributes
-        increment: $([() => { value($$(value) + 10) }], { toHtml: o => undefined }), //hide this from html attributes
+        increment: $([() => { value($$(value) + 10) }], { toHtml: o => undefined }) as ObservableMaybe<Function> | undefined, //hide this from html attributes
+        decrement: undefined as (ObservableMaybe<Function> | undefined), //hide this from html attributes
         value,
-        nested: { nested: { text: $('abc') } },
+        nested: { nested: { text: $('abc') } } as ObservableMaybe<{ nested: { text: ObservableMaybe<string> } }> | undefined,
         // Object with custom serialization
-        obj: $({ nested: { text: 'abc' } }, { toHtml: o => JSON.stringify(o), fromHtml: o => JSON.parse(o) }),
+        obj: $({ nested: { text: 'abc' } }, { toHtml: o => JSON.stringify(o), fromHtml: o => JSON.parse(o) }) as ObservableMaybe<{ nested: { text: ObservableMaybe<string> } }> | undefined,
         // Date with custom serialization
-        date: $(new Date(), { toHtml: o => o.toISOString(), fromHtml: o => new Date(o) }),
-        disabled: $(false, { type: 'boolean' } as const),
-        children: undefined
+        date: $(new Date(), { toHtml: o => o.toISOString(), fromHtml: o => new Date(o) }) as ObservableMaybe<Date> | undefined,
+        disabled: $(false, { type: 'boolean' } as const) as ObservableMaybe<boolean> | undefined
+        // Note: children is handled separately by the framework, not included in defaults
     }
 }
 
@@ -65,8 +71,22 @@ const Counter = defaults(def, (props) => {
         ...restProps
     } = props
 
-    // const context = useCounterContext()
-    const context = useMountedContext(CounterContext)
+    // const ctx = useCounterContext()
+    const { context, mount } = useCounterContext()
+    const { context: nc, mount: nm } = useNestedContext()
+    // const cc = () => ((props, ctx) => {
+    //     return useMemo(() => {
+    //         const { children } = props
+
+    //         $$(children)
+    //         const v = [...children[SYMBOL_OBSERVABLE_WRITABLE].observers]
+    //             .map(observer => observer.context[ctx.symbol])
+    //             .filter(f => !!f)
+
+    //         return v
+    //     })
+    // })(props, CounterContext)
+
 
     // Access the function from the observable array
     const increment = $$(inc)[0] ?? (() => { value($$(value) + 1) })
@@ -78,12 +98,15 @@ const Counter = defaults(def, (props) => {
         return $$(value) + '' + $$(v)
     })
 
+
     return (
         <div {...restProps} style={{ border: '1px solid red' }}>
             <h1>{title}</h1>
             <p>Value: <b>{value}</b></p>
             <p>Memo: <b>{m}</b></p>
             <p>Parent Context (TSX): <b>{context}</b></p>
+            {/* <p>Parent Context (ctx): <b>{ctx}</b></p> */}
+            {/* <p>Parent Context (CC): <b>{() => $$($$(cc)?.[0])}</b></p> */}
             <p>Object: {() => JSON.stringify($$(obj))}</p>
             <p>Date: {() => $$(date).toString()}</p>
             {/* <p>ContextElement: <ContextValue /></p> */}
@@ -93,32 +116,45 @@ const Counter = defaults(def, (props) => {
             {() => $$(children) ?
                 <div style={{ border: '1px solid gray', padding: '10px' }}>
                     <CounterContext.Provider value={value}>
-                        {children}
+                        {/* {() => {
+                            const ctx = useContext(CounterContext)
+                            console.log('ctx in .Provider', $$(ctx))
+                            const v = cc()
+                            return "CounterContext.Provider {()=>{}}" + $$(v)?.[0]()
+                            // return $$(children)
+                        }} */}
+                        ---CounterContext.Provider---
+                        <NestedContext.Provider value={m}>
+                            ---NestContext.Provider---
+                            {children}
+                            ---end NestContext.Provider---
+                        </NestedContext.Provider>
+                        ---end CounterContext.Provider---
                     </CounterContext.Provider>
                 </div>
                 : null}
-            <p>------------{title} compoent end-------------</p>
+            <p>------------{title} compoent end-------------</p>{mount}
         </div>
     )
 })
 
 
 const ContextValue = defaults(() => ({}), (props) => {
-    const context = useMountedContext(CounterContext) //direct use
+    // const { context, mount, ref } = useCounterContext() //direct use
+    const context = useCounterContext() //direct use
+    const { context: nc } = useNestedContext(context.ref)
 
-    // useEffect(() => console.log('ContextValue useEffect', $$(ref), $$($$(context))))
-    return <span >(Context Value = <b>{context}</b>)</span>
+    return <span onClick={() => console.log('clicked', $$(context))}>(Context Value = <b>{context} {nc} </b>)</span>
 })
 
 const ProcessedContextValue = defaults(() => ({}), (props) => {
-    const [context, m] = useMountedContext(CounterContext)
+    const v = $(0)
 
-    // useEffect(() => console.log('ContextValue useEffect', $$(ref), $$($$(context))))
-    return <span >(Pcocessed Context Value = <b>{useMemo(() => $$($$(context)) + ' Processed')}</b>){m}</span>
+    // const { context, mount, ref } = useMountedContext(CounterContext)
+    const context = useMountedContext(CounterContext)
+
+    return <span><button onClick={() => v($$(v) + 1)}>+++</button>(Pcocessed Context Value = <b>{() => context + ' Processed'}</b>){context.mount}</span>
 })
-
-
-
 
 /**
  * Register the Counter component as a custom element
@@ -194,9 +230,11 @@ const App = () => {
     const decrement = () => value(prev => prev - 1)
 
     return <>
+
         <h1>Custom element<br /></h1>
         <h1>&lt;counter-element&gt; - &lt;counter-element&gt;:<br /></h1>
         <counter-element title={'Custom element in TSX'}
+            style$background-color={'#eee'}
             style$color={'red'}
             style$font-size='1.1em'
             nested$nested$text='xyz'
@@ -223,7 +261,6 @@ const App = () => {
                 <ContextValue />
             </counter-element>
         </counter-element>
-
         <h1>Pure TSX &lt;Counter&gt; - &lt;Counter&gt;</h1>
         <Counter title='TSX Counter Main' value={value} increment={increment} decrement={decrement} >
             <context-value />

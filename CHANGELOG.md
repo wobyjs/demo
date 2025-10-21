@@ -1,5 +1,9 @@
 ## [unreleased]
 
+### 💼 Other
+
+- Unify `useContext` and enhance custom element attribute handling.
+
 ### 🚜 Refactor
 
 - *(context)* Unify useContext and remove useMountedContext
